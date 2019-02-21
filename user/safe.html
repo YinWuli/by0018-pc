@@ -1,0 +1,536 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>必赢彩票</title>
+  <style>
+    .bullets>.swiper-pagination-bullet {
+      background: rgba(255, 255, 255, 0.8);
+      opacity: 1;
+    }
+
+    .bullets.liwu>.swiper-pagination-bullet {
+      background: #999;
+    }
+
+    .bullets>.swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background: #d80b2a;
+    }
+
+    .loading {
+      background-image: url("../image/load.gif");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+  </style>
+
+  <style type="text/css">
+    :root .content>a>.topline,
+    :root .container>a.mid-wrapper {
+      display: none !important;
+    }
+  </style>
+  <link href="../css/app.baiying.css" rel="stylesheet">
+
+</head>
+
+<body class="">
+  <div id="app" v-cloak>
+    <div data-v-50b23bb5="" id="red" class="index">
+      <div data-v-0ac3c666="" data-v-50b23bb5="" class="backHeader">
+        <div data-v-0ac3c666="" class="top">
+          <div data-v-0ac3c666="" class="container">
+            你好，欢迎光临必赢彩票 !
+            <ul data-v-0ac3c666="" class="tabs">
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/zhuce" class="">加入代理</a></li>
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/user" class="">用户中心</a></li>
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/touzhu" class="">投注记录</a></li>
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/help" class="">帮助中心</a></li>
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" class="public_color">在线客服</a></li>
+            </ul>
+          </div>
+        </div>
+        <header data-v-0ac3c666="">
+          <div data-v-0ac3c666="" class="container"><img data-v-0ac3c666="" src="../image/d5ed1404201945c8.png">
+            <div data-v-0ac3c666="" class="unlogin_container" v-if="loginFlag==true">
+              <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="../image/user-icon_03.png">
+                <input data-v-0ac3c666="" type="text" placeholder="用户名" v-model="zhanghao"></div>
+              <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="../image/luck.png">
+                <input data-v-0ac3c666="" type="password" placeholder="密码" v-model="mima"></div>
+              <button data-v-0ac3c666="" class="public_back" @click="login()">登录</button> <button data-v-0ac3c666=""
+                class="regist" @click="regist()">注册</button>
+            </div>
+            <ul data-v-0ac3c666="" class="login_container" v-else>
+              <li data-v-0ac3c666="" class="username"><img data-v-0ac3c666="" :src="loginObj.url" @click="gerezhongxin()">
+                您好，<a data-v-0ac3c666="" class="public_color">{{loginObj.account}}</a>
+              </li>
+              <li data-v-0ac3c666="" class="show_yue">
+                可用余额:
+                <span data-v-0ac3c666="" class="public_color" v-if="balance">(已隐藏)</span>
+                <span data-v-0ac3c666="" class="public_color" v-else>{{checkbalance}}元</span>
+                <img data-v-0ac3c666="" src="../image/hidden.png" @click="balance = !balance"></li>
+              <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/recharge" class="">充值</a></li>
+              <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/tixian" class="">提现</a></li>
+              <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" @click="out()">退出</a></li>
+            </ul>
+          </div>
+        </header>
+        <div data-v-0ac3c666="" class="menu public_back">
+          <div data-v-0ac3c666="" class="container">
+            <div data-v-0ac3c666="" class="menuLeft" @mouseenter="ALLFLAG = true" @mouseleave="ALLFLAG = false"><img
+                data-v-0ac3c666="" src="../image/classify.png">
+              全部彩种分类
+              <ul data-v-0ac3c666="" class="all_lottery public_color" v-if="ALLFLAG">
+                <li data-v-0ac3c666="" v-for="(allitem, index) in ALL_LIST" :key="index" v-if="index>=1">
+                  <p data-v-0ac3c666="">{{allitem.cp_name}}</p>
+                  <div data-v-0ac3c666="" v-for="(listitem, index) in allitem.list" :key="index">
+                    <span data-v-0ac3c666="" @click="JumpGo(listitem)">{{listitem.title}}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <ul data-v-0ac3c666="" class="menuRight">
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../index.html">首页</a></li>
+              <li data-v-0ac3c666="" class="red"> <a data-v-0ac3c666="" href="../hall.html">购彩大厅</a></li>
+              <li data-v-0ac3c666="" class="">
+                <div data-v-0ac3c666="" class="hot"><img data-v-0ac3c666="" src="../image/hot2.png">
+                  <img data-v-0ac3c666="" src="../image/hot2.gif"></div>
+                <a data-v-0ac3c666="" href="../buy.html">直播间</a>
+              </li>
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../yhHuodong.html">优惠活动</a></li>
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../zoushi.html">走势图</a></li>
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../jihua.html">精准计划</a></li>
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../notice.html">网站公告</a></li>
+              <li data-v-0ac3c666="" class=""><img data-v-0ac3c666="" src="../image/phone-icon.png" style="width: 15px;">
+                <a data-v-0ac3c666="" href="../phone_buy.html">手机购彩</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 内容替换区 -->
+
+      <div data-v-15fd7600="" class="user_center container">
+        <div data-v-a7b1236e="" data-v-15fd7600="" class="userLeft">
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/zhanghao2.png">
+              账号管理
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e="" ><a href="./index.html">个人信息</a></li>
+              <li data-v-a7b1236e="" class="public_color"><a href="./safe.html">安全中心</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./cards.html">银行卡管理</a></li>
+            </ul>
+          </div>
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/touzhu2.png">
+              投注管理
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e="" class=""><a href="./touzhu.html">投注记录</a></li>
+            </ul>
+          </div>
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/zijin2.png">
+              资金管理
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e="" class=""><a href="./record.html">交易记录</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./getmoney.html">今日盈亏</a></li>
+            </ul>
+          </div>
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/daili2.png">
+              代理中心
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e="" class=""><a href="./agency_explain.html">代理说明</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./agency_table.html">代理报表</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./xiaji_table.html">下级报表</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./xiaji_account.html">下级开户</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./xiaji_vip.html">会员管理</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./xiaji_touzhu.html">投注明细</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./xiaji_deal.html">交易明细</a></li>
+            </ul>
+          </div>
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/xiaoxi2.png">
+              消息管理
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e="" class=""><a href="./user_email.html">站内信</a></li>
+            </ul>
+          </div>
+        </div>
+        <div data-v-4f7c0595="" class="right">
+          <div data-v-4f7c0595="" class="title"><span data-v-4f7c0595="" class="public_color">安全中心</span></div>
+          <div data-v-4f7c0595="" class="safe_level">
+            <div data-v-4f7c0595="" class="stars " :class="starnum(centerobj.safety_factor)" style="background-image: url(&quot;../image/star.png&quot;);"></div>
+            <p data-v-4f7c0595="" class="public_font_color2">您的账号安全级别为较低，可以通过完善安全信息提高级别。</p>
+            上次登录：{{centerobj.login_time}}&nbsp;&nbsp;&nbsp;{{centerobj.login_area}}
+          </div>
+          <ul data-v-4f7c0595="" class="safe_list">
+            <li data-v-4f7c0595="">
+              <div data-v-4f7c0595="" v-if="centerobj.login_password == false">
+                <img data-v-4f7c0595="" src="../image/no_set.png">
+                <br data-v-4f7c0595="">
+                待设置
+              </div>
+              <div data-v-4f7c0595="" v-else>
+                <img data-v-4f7c0595="" src="../image/set.png">
+                <br data-v-4f7c0595="">
+                已设置
+              </div>
+              <p data-v-4f7c0595="">登录密码</p>
+              <p data-v-4f7c0595="">建议使用字母和数字大小写组合</p>
+              <div data-v-4f7c0595=""><span data-v-4f7c0595="" class="change_color"><a href="./set-safe06.html">修改</a></span></div>
+            </li>
+            <li data-v-4f7c0595="" class="safe_psw">
+              <div data-v-4f7c0595="" v-if="centerobj.login_password == false">
+                <img data-v-4f7c0595="" src="../image/no_set.png">
+                <br data-v-4f7c0595="">
+                待设置
+              </div>
+              <div data-v-4f7c0595="" v-else>
+                <img data-v-4f7c0595="" src="../image/set.png">
+                <br data-v-4f7c0595="">
+                已设置
+              </div>
+              <p data-v-4f7c0595="">安全密码</p>
+              <p data-v-4f7c0595="">在资金变动，修改账户信息时需要输入安全密码</p>
+              <div data-v-4f7c0595="" v-if="centerobj.security_password == true">
+                <span data-v-4f7c0595="" class="change_color"><a href="./set-safe05.html">修改</a></span><br data-v-4f7c0595="">
+                <span data-v-4f7c0595="" class="change_color">找回</span>
+              </div>
+              <div data-v-4f7c0595="" v-else>
+                <button data-v-4f7c0595="" class="public_btn" @click="goset(1)">去设置</button>
+              </div>
+            </li>
+            <li data-v-4f7c0595="">
+              <div data-v-4f7c0595="" v-if="centerobj.security_question == false">
+                <img data-v-4f7c0595="" src="../image/no_set.png">
+                <br data-v-4f7c0595="">
+                待设置
+              </div>
+              <div data-v-4f7c0595="" v-else>
+                <img data-v-4f7c0595="" src="../image/set.png">
+                <br data-v-4f7c0595="">
+                已设置
+              </div>
+              <p data-v-4f7c0595="">安全密保问题</p>
+              <p data-v-4f7c0595="">安全问题，可用于修改和找回密码</p>
+              <div data-v-4f7c0595="" v-if="centerobj.security_question == true">
+                <span data-v-4f7c0595="" class="change_color"><a href="./set-safe07.html">修改</a></span>
+              </div>
+              <div data-v-4f7c0595="" v-else>
+                <button data-v-4f7c0595="" class="public_btn" @click="goset(2)">去设置</button>
+              </div>
+            </li>
+            <li data-v-4f7c0595="">
+              <div data-v-4f7c0595="" v-if="centerobj.phone == false">
+                <img data-v-4f7c0595="" src="../image/no_set.png">
+                <br data-v-4f7c0595="">
+                待绑定
+              </div>
+              <div data-v-4f7c0595="" v-else>
+                <img data-v-4f7c0595="" src="../image/set.png">
+                <br data-v-4f7c0595="">
+                已设置
+              </div>
+              <p data-v-4f7c0595="">绑定手机</p>
+              <p data-v-4f7c0595="">
+                绑定手机可以增加账户安全性，快速找回帐号密码
+              </p>
+              <div data-v-4f7c0595="" v-if="centerobj.phone == true">
+                <span data-v-4f7c0595="" class="change_color"><a href="./set-safe03.html">修改</a></span><br data-v-4f7c0595="">
+              </div>
+              <div data-v-4f7c0595="" v-else>
+                <button data-v-4f7c0595="" class="public_btn" @click="goset(3)">去设置</button>
+              </div>
+            </li>
+            <li data-v-4f7c0595="">
+              <div data-v-4f7c0595="" v-if="centerobj.email == false">
+                <img data-v-4f7c0595="" src="../image/no_set.png">
+                <br data-v-4f7c0595="">
+                待绑定
+              </div>
+              <div data-v-4f7c0595="" v-else>
+                <img data-v-4f7c0595="" src="../image/set.png">
+                <br data-v-4f7c0595="">
+                已设置
+              </div>
+              <p data-v-4f7c0595="">绑定邮箱</p>
+              <p data-v-4f7c0595="">
+                绑定邮箱可以增加账户安全性，快速找回帐号密码
+              </p>
+              <div data-v-4f7c0595="" v-if="centerobj.email == true">
+                <span data-v-4f7c0595="" class="change_color"><a href="./set-safe04.html">修改</a></span><br data-v-4f7c0595="">
+                <span data-v-4f7c0595="" class="change_color">找回</span>
+              </div>
+              <div data-v-4f7c0595="" v-else>
+                <button data-v-4f7c0595="" class="public_btn" @click="goset(4)">去设置</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 内容替换区结束 -->
+    <div data-v-94a66012="" data-v-50b23bb5="" class="backFooter">
+      <div data-v-94a66012="" class="container">
+        <ul data-v-94a66012="" class="tabs">
+          <li data-v-94a66012="">
+            技术支持<span data-v-94a66012="">Technica support</span></li>
+          <li data-v-94a66012="">
+            服务体验<span data-v-94a66012="">Service experience</span></li>
+          <li data-v-94a66012="">
+            充值方式<span data-v-94a66012="">Recharge method</span></li>
+        </ul>
+        <ul data-v-94a66012="" class="content">
+          <li data-v-94a66012="" class="baiying"><img data-v-94a66012="" src="../image/computer.png">
+            <div data-v-94a66012="">
+              百盈彩票<br data-v-94a66012="">
+              专业的彩票系统平台
+            </div>
+          </li>
+          <li data-v-94a66012="">
+            <div data-v-94a66012="" class="time">
+              昨日充值到账平均时间
+              <div data-v-94a66012="" class="outer">
+                <div data-v-94a66012="" class="inner"></div>
+              </div> <span data-v-94a66012="">
+                <i data-v-94a66012="">分</i></span></div>
+            <div data-v-94a66012="" class="time">
+              昨日提现到账平均时间
+              <div data-v-94a66012="" class="outer">
+                <div data-v-94a66012="" class="inner inner2"></div>
+              </div> <span data-v-94a66012="">
+                <i data-v-94a66012="">分</i></span></div>
+          </li>
+          <li data-v-94a66012="" class="imgs"><img data-v-94a66012="" src="../image/weinxin.png">
+            <img data-v-94a66012="" src="../image/zhifubao.png">
+            <img data-v-94a66012="" src="../image/yinlian.png"></li>
+        </ul>
+        <div data-v-94a66012="" class="about_us">
+          <ul data-v-94a66012="" class="about_list">
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">关于我们</a></li>
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">联系我们</a></li>
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">商务合作</a></li>
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">法律声明</a></li>
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">隐私声明</a></li>
+          </ul>
+          郑重提示 : 彩票有风险，投注需谨慎。不向未满十八岁的青少年出售彩票 !
+        </div>
+      </div>
+    </div>
+    <div v-if="cengFlag == true">
+      <div>
+        <div class="alert_box" id="red">
+          <div class="alert_head public_back">温馨提示
+            <img src="../image/white_close.png">
+          </div>
+          <p class="alert_text">
+            <img src="../image/icon-alert.png">
+            {{cengtitle}}
+          </p>
+          <div class="alert_bottom">
+            <button class="public_btn" @click="cengShow()">确定</button>
+          </div>
+        </div>
+        <div class="bg"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <script src="../js/svga.min.js"></script>
+  <script src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../js/vue.js"></script>
+  <script src="../js/index.js"></script>
+  <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        title: '全部彩种',
+        HOT_LIST: [],
+        ALL_LIST: [],
+        LISTINDEX: 0,
+        // 列表展开页面
+        ALLFLAG: false,
+        ALL_LIST: [],
+        ALL_LIST: [],
+        // 登陆相关参数
+        loginObj: {},
+        loginFlag: true,
+        mima: '',
+        zhanghao: '',
+        balance: true,
+        // 弹出层参数
+        cengtitle: '',
+        cengFlag: false,
+                // 最新余额
+                checkbalance:'',
+        // 个人中心的参数
+        qiehuan: 0,
+        // 安全中心
+        centerobj: {},
+
+      },
+      mounted() {
+        if (localStorage.getItem('loginobj') != null) {
+          if (JSON.parse(localStorage.getItem('loginobj')).code == 200) {
+            this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+            this.loginFlag = false
+          }
+        } else {
+          window.location.href = "../index.html"
+        }
+        this.init()
+      },
+      computed: {
+        starnum() {
+          return (num) => {
+            switch (num) {
+              case 1:
+                return 'grey4'
+                break;
+              case 2:
+                return 'grey3'
+                break;
+              case 3:
+                return 'grey2'
+                break;
+              case 4:
+                return 'grey1'
+                break;
+              case 5:
+                return 'grey0'
+                break;
+
+              default:
+                break;
+            }
+          }
+        }
+      },
+      methods: {
+        init() {
+          $.ajax({
+            type: "get",
+            url: HOST + "/api/all/lottery",
+            success: (res) => {
+              this.ALL_LIST = res.list;
+            }
+          });
+          $.ajax({
+            type: "post",
+            url: HOST + "/api/security/center",
+            data: {
+              session_id: this.loginObj.session_id
+            },
+            success: (res) => {
+              console.log('安全中心-------');
+              console.log(res);
+              this.centerobj = res
+            }
+          });
+        },
+        tiaozhuan(name, typeid) {
+          switch (typeid) {
+            case 'k3':
+              window.location.href = "../total_buy/index.html?name=" + name
+
+              break;
+            case 'ssc':
+              window.location.href = "../total_buy/ssc.html?name=" + name
+
+              break;
+            case 'pk10':
+              window.location.href = "../total_buy/pk10.html?name=" + name
+
+              break;
+            case 'kl10':
+              window.location.href = "../total_buy/kl10.html?name=" + name
+
+              break;
+            case 'xu5':
+              window.location.href = "../total_buy/xu5.html?name=" + name
+
+              break;
+
+            default:
+              break;
+          }
+
+        },
+        JumpGo(arr) {
+          if (this.loginObj.code == undefined) {
+            this.cengFlag = true;
+            this.cengtitle = '请先登陆'
+            return
+          }
+          switch (arr.typeid) {
+            case 'k3':
+              window.location.href = "../total_buy/index.html?name=" + arr.name
+              break;
+            case 'ssc':
+              window.location.href = "../total_buy/ssc.html?name=" + arr.name
+              break;
+            case 'pk10':
+              window.location.href = "../total_buy/pk10.html?name=" + arr.name
+              break;
+            case 'kl10':
+              window.location.href = "../total_buy/kl10.html?name=" + arr.name
+              break;
+            case 'xu5':
+              window.location.href = "../total_buy/xu5.html?name=" + arr.name
+              break;
+
+            default:
+              break;
+          }
+        },
+        login() {
+          $.ajax({
+            type: "post",
+            url: HOST + "/api/lottery/login",
+            data: {
+              account: this.zhanghao,
+              password: this.mima
+            },
+            success: res => {
+              console.log(res);
+              if (res.code == 200) {
+                localStorage.setItem('loginobj', JSON.stringify(res))
+                this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+                this.loginFlag = false
+              }
+              console.log(this.loginObj);
+            }
+          });
+        },
+        regist() {
+          window.location.href = "../login/regist.html"
+        },
+        out() {
+          this.loginFlag = true;
+          localStorage.removeItem('loginobj')
+        },gerezhongxin() {
+          window.location.href = "./index.html"
+        },
+        goset(index){
+          window.location.href="./set-safe0"+index+".html"
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

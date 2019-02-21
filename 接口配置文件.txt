@@ -1,0 +1,46 @@
+# 注册
+# /api/lottery/register 参数 invite_code邀请码 账号 account 密码 password
+# 登录
+# /api/lottery/login 参数 account账号 password 密码
+# 下级开户
+# /api/lower/open 参数 设置的返点数point
+# 邀请码管理
+# /api/invite/manage 参数proxy 0 玩家 1代理 page页码 index 每页多少条
+# 会员管理
+# /api/member/manage 参数 proxy  同上 account 账号 page页码 index 每页多少条
+# 用户头像
+# /api/user/header
+# 修改头像
+# /api/header/upload  参数header_id
+# 投注记录
+# /api/bet/record 参数session_id   彩种名称 name  page页码 index 每页多少条  open_state 开奖状态 date_str 日期 2018-12-16_2018-12-19
+# 今日概况
+# /api/bet/today  参数session_id
+# 注单详情
+# /api/bet/detail 参数guid  参数session_id  page页码 index 每页多少条
+#  交易类别
+# /api/transaction/type
+# 投注明细
+# /api/betting/detail 参数session_id  page页码 index 每页多少条  name 选择的彩种  date_str 日期 2018-12-12_2018-12-19 账号account
+# 交易明细
+# /api/transaction/detail 参数session_id  page页码 index 每页多少条  code 选择的状态  date_str 日期 2018-12-12_2018-12-19 账号account
+# 返点彩种
+# /api/rebate/lottery
+# 返点彩种列表
+# /api/rebate/list 参数typeid
+# 彩种列表
+# /api/lottery/list
+# 获取开奖接口
+#/api/draw/result 参数name 获取开奖的
+# 等级列表
+# /api/grow/list 
+# 用户中心更新
+# /api/user/update
+# 修改登录密码 
+# /api/login/password       old_password     password
+# 优惠活动列表
+# /api/favourable/list
+# 优惠活动详情
+# /api/proxy/detail  id
+# 个人中心保存
+# /api/user/update    nickname  phone email  qq  sex

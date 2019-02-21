@@ -1,0 +1,942 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>必赢彩票</title>
+    <style>
+        .bullets>.swiper-pagination-bullet {
+            background: rgba(255, 255, 255, 0.8);
+            opacity: 1;
+        }
+
+        .bullets.liwu>.swiper-pagination-bullet {
+            background: #999;
+        }
+
+        .bullets>.swiper-pagination-bullet.swiper-pagination-bullet-active {
+            background: #d80b2a;
+        }
+
+        .loading {
+            background-image: url("./image/load.gif");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+
+    <style type="text/css">
+        :root .content>a>.topline,
+        :root .container>a.mid-wrapper {
+            display: none !important;
+        }
+    </style>
+    <link href="./css/app.baiying.css" rel="stylesheet">
+
+</head>
+
+<body class="">
+    <div id="app" v-cloak >
+        <div data-v-50b23bb5="" id="red" class="index">
+            <div data-v-0ac3c666="" data-v-50b23bb5="" class="backHeader">
+                <div data-v-0ac3c666="" class="top">
+                    <div data-v-0ac3c666="" class="container">
+                        你好，欢迎光临必赢彩票 !
+                        <ul data-v-0ac3c666="" class="tabs">
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/zhuce" class="">加入代理</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/user" class="">用户中心</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/touzhu" class="">投注记录</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/help" class="">帮助中心</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" class="public_color">在线客服</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <header data-v-0ac3c666="">
+                    <div data-v-0ac3c666="" class="container"><img data-v-0ac3c666="" src="image/d5ed1404201945c8.png">
+                        <div data-v-0ac3c666="" class="unlogin_container" v-if="loginFlag==true">
+                            <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="image/user-icon_03.png">
+                                <input data-v-0ac3c666="" type="text" placeholder="用户名" v-model="zhanghao"></div>
+                            <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="image/luck.png">
+                                <input data-v-0ac3c666="" type="password" placeholder="密码" v-model="mima"></div>
+                            <button data-v-0ac3c666="" class="public_back" @click="login()">登录</button> <button
+                                data-v-0ac3c666="" class="regist" @click="regist()">注册</button>
+                        </div>
+                        <ul data-v-0ac3c666="" class="login_container" v-else>
+                            <li data-v-0ac3c666="" class="username"><img data-v-0ac3c666="" :src="loginObj.url" @click="gerezhongxin()">
+                                您好，<a data-v-0ac3c666="" class="public_color">{{loginObj.account}}</a>
+                                <!---->
+                            </li>
+                            <li data-v-0ac3c666="" class="show_yue">
+                                可用余额:
+                                <span data-v-0ac3c666="" class="public_color" v-if="balance">(已隐藏)</span>
+                                <span data-v-0ac3c666="" class="public_color" v-else>{{checkbalance}}元</span>
+                                                                <img data-v-0ac3c666="" src="image/hidden.png" @click="checkbalances()"></li>
+                            <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/recharge" class="">充值</a></li>
+                            <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/tixian" class="">提现</a></li>
+                            <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" @click="out()">退出</a></li>
+                        </ul>
+                    </div>
+                </header>
+                <div data-v-0ac3c666="" class="menu public_back">
+                    <div data-v-0ac3c666="" class="container">
+
+
+                        <div data-v-0ac3c666="" class="menuLeft" @mouseenter="ALLFLAG = true" @mouseleave="ALLFLAG = false"><img
+                                data-v-0ac3c666="" src="image/classify.png">
+                            全部彩种分类
+                            <ul data-v-0ac3c666="" class="all_lottery public_color" v-if="ALLFLAG">
+                                <li data-v-0ac3c666="" v-for="(allitem, index) in ALL_LIST" :key="index" v-if="index>=1">
+                                    <p data-v-0ac3c666="">{{allitem.cp_name}}</p>
+                                    <div data-v-0ac3c666="" v-for="(listitem, index) in allitem.list" :key="index">
+                                        <span data-v-0ac3c666="" @click="JumpGo(listitem)">{{listitem.title}}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <ul data-v-0ac3c666="" class="menuRight">
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./index.html">首页</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./hall.html">购彩大厅</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <div data-v-0ac3c666="" class="hot"><img data-v-0ac3c666="" src="image/hot2.png">
+                                    <img data-v-0ac3c666="" src="image/hot2.gif"></div>
+                                <a data-v-0ac3c666="" href="./buy.html">直播间</a>
+                            </li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./yhHuodong.html">优惠活动</a></li>
+                            <li data-v-0ac3c666="" class="red">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./zoushi.html">走势图</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./jihua.html">精准计划</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./notice.html">网站公告</a></li>
+                            <li data-v-0ac3c666="" class=""><img data-v-0ac3c666="" src="image/phone-icon.png" style="width: 15px;">
+                                <!----> <a data-v-0ac3c666="" href="./phone_buy.html">手机购彩</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容替换区 -->
+
+            <div data-v-0eee6599="" class="container">
+                <ul data-v-0eee6599="" class="caizhong_choose">
+                    <li data-v-0eee6599="" class="" v-for="(hotitem, hotindex) in HOT_LIST" :key="hotindex" @click=changelist(hotitem.name,hotitem.typeid)><span
+                            data-v-0eee6599="" :class="hotitem.name" class="top-cat_"></span>
+                        {{hotitem.title}}
+                    </li>
+
+                    <li data-v-0eee6599="" class="active" @mouseenter="TANFLAG = true" @mouseleave="TANFLAG = false"><img
+                            data-v-0eee6599="" src="image/icon_zoushi.png">
+                        <i data-v-0eee6599="">更多彩票走势图</i>
+                        <ul data-v-0eee6599="" class="tanchuang" v-if="TANFLAG">
+                            <li data-v-0eee6599="" v-for="(allitem, index) in ALL_LIST" :key="index" v-if="index>=1">
+                                <p data-v-0eee6599="">{{allitem.cp_name}}</p>
+                                <div data-v-0eee6599="" v-for="(listitem, index) in allitem.list" :key="index">
+                                    <span data-v-0eee6599="" @click="change(listitem.name,listitem.typeid)">{{listitem.title}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- 快3渲染 -->
+                <div data-v-ab24405a="" data-v-0eee6599="" id="red" class="zoushi_public" v-if="K3">
+                    <div data-v-ab24405a="" class="head"><span data-v-ab24405a="" class="public_color">{{title}}走势图</span>
+                        <ul data-v-ab24405a="">
+                            <li data-v-ab24405a="" class="on"><span data-v-ab24405a="">近30期</span></li>
+                            <li data-v-ab24405a="" class=""><span data-v-ab24405a="">近50期</span></li>
+                            <li data-v-ab24405a="" class=""><span data-v-ab24405a="">近200期</span></li>
+                        </ul>
+                    </div>
+                    <div data-v-ab24405a="" class="detail">
+                        <ul data-v-ab24405a="">
+                            <li data-v-ab24405a="" class="clear">
+                                <p data-v-ab24405a="">期数</p>
+                                <p data-v-ab24405a="">开奖号码</p>
+                                <div data-v-ab24405a="" class="d">
+                                    <p data-v-ab24405a="">和值</p>
+                                    <ul data-v-ab24405a="" class="clear">
+                                        <li data-v-ab24405a="">3</li>
+                                        <li data-v-ab24405a="">4</li>
+                                        <li data-v-ab24405a="">5</li>
+                                        <li data-v-ab24405a="">6</li>
+                                        <li data-v-ab24405a="">7</li>
+                                        <li data-v-ab24405a="">8</li>
+                                        <li data-v-ab24405a="">9</li>
+                                        <li data-v-ab24405a="">10</li>
+                                        <li data-v-ab24405a="">11</li>
+                                        <li data-v-ab24405a="">12</li>
+                                        <li data-v-ab24405a="">13</li>
+                                        <li data-v-ab24405a="">14</li>
+                                        <li data-v-ab24405a="">15</li>
+                                        <li data-v-ab24405a="">16</li>
+                                        <li data-v-ab24405a="">17</li>
+                                        <li data-v-ab24405a="">18</li>
+                                    </ul>
+                                </div>
+                                <p data-v-ab24405a="">和值组合</p>
+                                <p data-v-ab24405a="">二同号</p>
+                                <p data-v-ab24405a="">二不同号</p>
+                                <p data-v-ab24405a="">三同号</p>
+                                <p data-v-ab24405a="">三连号</p>
+                                <p data-v-ab24405a="">三不同号</p>
+                            </li>
+
+                            <li data-v-ab24405a="" class="clear" v-for="(zoushi,index) in ZOUSHI_LIST" :key="index">
+                                <p data-v-ab24405a="">{{zoushi.No}}</p>
+                                <ul data-v-ab24405a="" class="clear">
+                                    <li data-v-ab24405a="">{{zoushi.LotteryOpenNo.split(',')[0]}}</li>
+                                    <li data-v-ab24405a="">{{zoushi.LotteryOpenNo.split(',')[1]}}</li>
+                                    <li data-v-ab24405a="">{{zoushi.LotteryOpenNo.split(',')[2]}}</li>
+                                </ul>
+                                <div data-v-ab24405a="" class="d">
+                                    <ul data-v-ab24405a="" class="clear">
+                                        <li data-v-ab24405a="" class="" v-for="(item,i) in zoushi.HeZhi" :key="i"
+                                            :class="{'on':item == -1}">{{item ==
+                                            -1?parseInt(zoushi.LotteryOpenNo.split(',')[0])+parseInt(zoushi.LotteryOpenNo.split(',')[1])+parseInt(zoushi.LotteryOpenNo.split(',')[2]):item}}</li>
+                                    </ul>
+                                </div>
+                                <p data-v-ab24405a=""><span data-v-ab24405a="" class="on">{{zoushi.DaXiao}}</span>
+                                    <span data-v-ab24405a="" class="">{{zoushi.DanShuang}}</span></p>
+                                <p data-v-ab24405a="" class="">{{zoushi.ErTongHao == -1?"二同号":zoushi.ErTongHao}}</p>
+                                <p data-v-ab24405a="" class="">{{zoushi.ErBuTongHao == -1?"二不同号":zoushi.ErBuTongHao}}</p>
+                                <p data-v-ab24405a="" class="">{{zoushi.SanTongHao == -1?"三同号":zoushi.SanTongHao}}</p>
+                                <p data-v-ab24405a="" :class="{'on':zoushi.SanLianHao == -1}">{{zoushi.SanLianHao ==
+                                    -1?"三连号":zoushi.SanLianHao}}</p>
+                                <p data-v-ab24405a="" class="on">{{zoushi.SanBuTongHao ==
+                                    -1?"三不同号":zoushi.SanBuTongHao}}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 时时彩渲染 -->
+                <div data-v-7b4e8c84="" data-v-0eee6599="" id="red" class="zoushi_public" v-if="SSC">
+                    <div data-v-7b4e8c84="" class="head"><span data-v-7b4e8c84="" class="public_color">{{title}}走势图</span>
+                        <ul data-v-7b4e8c84="">
+                            <li data-v-7b4e8c84="" class="on"><span data-v-7b4e8c84="">近30期</span></li>
+                            <li data-v-7b4e8c84="" class=""><span data-v-7b4e8c84="">近50期</span></li>
+                            <li data-v-7b4e8c84="" class=""><span data-v-7b4e8c84="">近200期</span></li>
+                        </ul>
+                    </div>
+                    <div data-v-7b4e8c84="" class="detail">
+                        <ul data-v-7b4e8c84="">
+                            <li data-v-7b4e8c84="" class="clear">
+                                <p data-v-7b4e8c84="">期数</p>
+                                <p data-v-7b4e8c84="">开奖时间</p>
+                                <ul data-v-7b4e8c84="" class="clear">
+                                    <li data-v-7b4e8c84="" class="" :class="[k3index==1?'on':'']" @click="showListChange('ssc',1)">显示号码</li>
+                                    <li data-v-7b4e8c84="" class="" :class="[k3index==2?'on':'']" @click="showListChange('ssc',2)">显示大小</li>
+                                    <li data-v-7b4e8c84="" class="" :class="[k3index==3?'on':'']" @click="showListChange('ssc',3)">显示单双</li>
+                                </ul>
+                                <p data-v-7b4e8c84="">总和</p>
+                                <p data-v-7b4e8c84="">龙虎</p>
+                                <p data-v-7b4e8c84="">前三</p>
+                                <p data-v-7b4e8c84="">中三</p>ch
+                                <p data-v-7b4e8c84="">后三</p>
+                            </li>
+                            <li data-v-7b4e8c84="" class="clear" v-for="(ssc,index) in ZOUSHI_LIST" :key="index">
+                                <p data-v-7b4e8c84="">{{ssc.no_period}}</p>
+                                <p data-v-7b4e8c84="">{{ssc.opentime}}</p>
+                                <ul data-v-7b4e8c84="" class="clear" v-if="k3index == 1">
+                                    <li data-v-7b4e8c84="" class="" v-for="(item,index) in ssc.LotteryOpenNo.split(',')"
+                                        :key="index">{{item}}</li>
+                                </ul>
+                                <ul data-v-7b4e8c84="" class="clear" v-else-if="k3index == 2">
+                                    <li data-v-7b4e8c84="" v-for="(item,index) in ssc.LotteryOpenNo.split(',')" :key="index"
+                                        :class="[item>=5?'blue':'green']">{{item>=5?"大":"小"}}</li>
+                                </ul>
+                                <ul data-v-7b4e8c84="" class="clear" v-else>
+                                    <li data-v-7b4e8c84="" v-for="(item,index) in ssc.LotteryOpenNo.split(',')" :class="[item%2>0?'green':'blue']">{{item%2>0?"单":"双"}}</li>
+                                </ul>
+                                <p data-v-7b4e8c84="">
+                                    <span data-v-7b4e8c84="">{{ssc.LotteryOpenNo.split(',').reduce(function
+                                        getSum(total, num) {return total + Math.round(num)},0)}}</span>
+                                    <span data-v-7b4e8c84="" :class="{'on':ssc.LotteryOpenNo.split(',').reduce(function getSum(total, num) {return total + Math.round(num)},0)>22}">{{ssc.LotteryOpenNo.split(',').reduce(function
+                                        getSum(total, num) {return total + Math.round(num)},0)<=22?"小":"大"}}</span>
+                                            <span data-v-7b4e8c84="" :class="[ssc.LotteryOpenNo.split(',').reduce(function getSum(total, num) {return total + Math.round(num)},0)%2>0?'on':'']">{{ssc.LotteryOpenNo.split(',').reduce(function
+                                            getSum(total, num) {return total + Math.round(num)},0)%2>0?"双":"小"}}</span>
+                                </p>
+                                <p data-v-7b4e8c84="" :class="{'on':ssc.LotteryOpenNo.split(',')[0]>ssc.LotteryOpenNo.split(',')[4]}">{{ssc.LotteryOpenNo.split(',')[0]>ssc.LotteryOpenNo.split(',')[4]?"龙":"虎"}}</p>
+                                <p data-v-7b4e8c84="">{{ssc.top_three}}</p>
+                                <p data-v-7b4e8c84="">{{ssc.middle_three}}</p>
+                                <p data-v-7b4e8c84="">{{ssc.later_three}}</p>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- PK10 -->
+                <div data-v-45b87c4b="" data-v-0eee6599="" id="red" class="zoushi_public" v-if="PK10">
+                    <div data-v-45b87c4b="" class="head"><span data-v-45b87c4b="" class="public_color">{{title}}走势图</span>
+                        <ul data-v-45b87c4b="">
+                            <li data-v-45b87c4b="" class="on"><span data-v-45b87c4b="">近30期</span></li>
+                            <li data-v-45b87c4b="" class=""><span data-v-45b87c4b="">近50期</span></li>
+                            <li data-v-45b87c4b="" class=""><span data-v-45b87c4b="">近200期</span></li>
+                        </ul>
+                    </div>
+                    <div data-v-45b87c4b="" class="detail">
+                        <ul data-v-45b87c4b="">
+                            <li data-v-45b87c4b="" class="clear">
+                                <p data-v-45b87c4b="">期数</p>
+                                <p data-v-45b87c4b="">开奖时间</p>
+                                <ul data-v-45b87c4b="" class="clear">
+                                    <li data-v-45b87c4b="" class="" :class="[pk10index==1?'on':'']" @click="showListChange('pk10',1)">显示号码</li>
+                                    <li data-v-45b87c4b="" class="" :class="[pk10index==2?'on':'']" @click="showListChange('pk10',2)">显示大小</li>
+                                    <li data-v-45b87c4b="" class="" :class="[pk10index==3?'on':'']" @click="showListChange('pk10',3)">显示单双</li>
+                                </ul>
+                                <p data-v-45b87c4b="">1~5龙虎</p>
+                                <p data-v-45b87c4b="">冠亚总和</p>
+                            </li>
+                            <li data-v-45b87c4b="" class="clear" v-for="(pk10,index) in ZOUSHI_LIST" :key="index">
+                                <p data-v-45b87c4b="">{{pk10.expect}}</p>
+                                <p data-v-45b87c4b="">{{pk10.opentime}}</p>
+                                <ul data-v-45b87c4b="" class="clear third" v-if="pk10index ==1">
+                                    <li data-v-45b87c4b="" v-for="(item, index) in pk10.opencode.split(',')" :key="index">{{item}}</li>
+                                </ul>
+                                <ul data-v-45b87c4b="" class="clear third" v-else-if="pk10index ==2">
+                                    <li data-v-45b87c4b="" v-for="(item, index) in pk10.opencode.split(',')" :key="index"
+                                        :class="[item>=6?'da':'xiao']">{{item>=6?"大":"小"}}</li>
+                                </ul>
+                                <ul data-v-45b87c4b="" class="clear third" v-else>
+                                    <li data-v-45b87c4b="" v-for="(item, index) in pk10.opencode.split(',')" :key="index"
+                                        :class="[item%2>0?'xiao':'da']">{{item%2==0?"双":"单"}}</li>
+                                </ul>
+                                <p data-v-45b87c4b="" class="longhu1">
+                                    <span data-v-45b87c4b="" class="" :class="{'red':pk10.opencode.split(',')[0]>pk10.opencode.split(',')[9]}">{{pk10.opencode.split(',')[0]>pk10.opencode.split(',')[9]?"龙":"虎"}}</span>
+                                    <span data-v-45b87c4b="" class="" :class="{'red':pk10.opencode.split(',')[1]>pk10.opencode.split(',')[8]}">{{pk10.opencode.split(',')[1]>pk10.opencode.split(',')[8]?"龙":"虎"}}</span>
+                                    <span data-v-45b87c4b="" class="" :class="{'red':pk10.opencode.split(',')[2]>pk10.opencode.split(',')[7]}">{{pk10.opencode.split(',')[2]>pk10.opencode.split(',')[7]?"龙":"虎"}}</span>
+                                    <span data-v-45b87c4b="" class="" :class="{'red':pk10.opencode.split(',')[3]>pk10.opencode.split(',')[6]}">{{pk10.opencode.split(',')[3]>pk10.opencode.split(',')[6]?"龙":"虎"}}</span>
+                                    <span data-v-45b87c4b="" class="" :class="{'red':pk10.opencode.split(',')[4]>pk10.opencode.split(',')[5]}">{{pk10.opencode.split(',')[4]>pk10.opencode.split(',')[5]?"龙":"虎"}}</span>
+                                </p>
+                                <div data-v-45b87c4b="" class="he">
+                                    <span data-v-45b87c4b="">{{parseInt(pk10.opencode.split(',')[0])+parseInt(pk10.opencode.split(',')[1])}}</span>
+                                    <span data-v-45b87c4b="" :class="{'red':(parseInt(pk10.opencode.split(',')[0])+parseInt(pk10.opencode.split(',')[1]))>=12}">{{(parseInt(pk10.opencode.split(',')[0])+parseInt(pk10.opencode.split(',')[1]))>=12?"大":"小"}}</span>
+                                    <span data-v-45b87c4b="" :class="{'red':(parseInt(pk10.opencode.split(',')[0])+parseInt(pk10.opencode.split(',')[1]))%2>0}">{{(parseInt(pk10.opencode.split(',')[0])+parseInt(pk10.opencode.split(',')[1]))%2>0?"单":"双"}}</span>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- 快乐10 -->
+                <div data-v-697dd5ce="" data-v-0eee6599="" id="red" class="zoushi_public" v-if="KL10">
+                    <div data-v-697dd5ce="" class="head"><span data-v-697dd5ce="" class="public_color">{{title}}走势图</span>
+                        <ul data-v-697dd5ce="">
+                            <li data-v-697dd5ce="" class="on"><span data-v-697dd5ce="">近30期</span></li>
+                            <li data-v-697dd5ce="" class=""><span data-v-697dd5ce="">近50期</span></li>
+                            <li data-v-697dd5ce="" class=""><span data-v-697dd5ce="">近200期</span></li>
+                        </ul>
+                    </div>
+                    <div data-v-697dd5ce="" class="detail">
+                        <ul data-v-697dd5ce="">
+                            <li data-v-697dd5ce="" class="clear">
+                                <p data-v-697dd5ce="">期数</p>
+                                <p data-v-697dd5ce="">开奖时间</p>
+                                <ul data-v-697dd5ce="" class="clear">
+                                    <li data-v-697dd5ce="" :class="[kl10index==1?'on':'']" @click="showListChange('kl10',1)">号码</li>
+                                    <li data-v-697dd5ce="" :class="[kl10index==2?'on':'']" @click="showListChange('kl10',2)">大小</li>
+                                    <li data-v-697dd5ce="" :class="[kl10index==3?'on':'']" @click="showListChange('kl10',3)">单双</li>
+                                    <li data-v-697dd5ce="" :class="[kl10index==4?'on':'']" @click="showListChange('kl10',4)">方位</li>
+                                    <li data-v-697dd5ce="" :class="[kl10index==5?'on':'']" @click="showListChange('kl10',5)">中发白</li>
+                                    <li data-v-697dd5ce="" :class="[kl10index==6?'on':'']" @click="showListChange('kl10',6)">尾数</li>
+                                    <li data-v-697dd5ce="" :class="[kl10index==7?'on':'']" @click="showListChange('kl10',7)">合数</li>
+                                </ul>
+                                <p data-v-697dd5ce="">总和</p>
+                                <p data-v-697dd5ce="">1~4球龙虎</p>
+                            </li>
+                            <li data-v-697dd5ce="" class="clear" v-for="(kl10,index) in ZOUSHI_LIST" :key="index">
+                                <p data-v-697dd5ce="">{{kl10.expect}}</p>
+                                <p data-v-697dd5ce="">{{kl10.opentime}}</p>
+                                <ul data-v-697dd5ce="" class="clear" v-if="kl10index == 1">
+                                    <li data-v-697dd5ce="" v-for="(item, index) in kl10.opencode.split(',')" :key="index">{{item}}</li>
+                                </ul>
+                                <ul data-v-697dd5ce="" class="clear" v-else-if="kl10index == 2">
+                                    <li data-v-697dd5ce="" v-for="(item, index) in kl10.opencode.split(',')" :key="index"
+                                        :class="[Alldaxiao(item,20)=='大'?'blue':'green']">{{Alldaxiao(item,20)}}</li>
+                                </ul>
+                                <ul data-v-697dd5ce="" class="clear" v-else-if="kl10index == 3">
+                                    <li data-v-697dd5ce="" v-for="(item, index) in kl10.opencode.split(',')" :key="index"
+                                        :class="[danshuang(item)=='双'?'blue':'green']">{{danshuang(item)}}</li>
+                                </ul>
+                                <ul data-v-697dd5ce="" class="clear" v-else-if="kl10index == 4">
+                                    <li data-v-697dd5ce="" v-for="(item, index) in kl10.opencode.split(',')" :key="index"
+                                        :class="{'blue':Allfangwei(item)=='南','green':Allfangwei(item)=='东','gray':Allfangwei(item)=='西'}">{{Allfangwei(item)}}</li>
+                                </ul>
+                                <ul data-v-697dd5ce="" class="clear" v-else-if="kl10index == 5">
+                                    <li data-v-697dd5ce="" v-for="(item, index) in kl10.opencode.split(',')" :key="index"
+                                        :class="{'green':Allzhongfabai(item)=='中','blue':Allzhongfabai(item)=='发'}">{{Allzhongfabai(item)}}</li>
+                                </ul>
+                                <ul data-v-697dd5ce="" class="clear" v-else-if="kl10index == 6">
+                                    <li data-v-697dd5ce="" v-for="(item, index) in kl10.opencode.split(',')" :key="index"
+                                        :class="[weishu(item)=='尾大'?'blue1':'green1']">{{weishu(item)}}</li>
+                                </ul>
+                                <ul data-v-697dd5ce="" class="clear" v-else="kl10index == 7">
+                                    <li data-v-697dd5ce="" v-for="(item, index) in kl10.opencode.split(',')" :key="index"
+                                        :class="[Allheshu(item)=='合数单'?'green1':'blue1']">{{Allheshu(item)}}</li>
+                                </ul>
+                                <p data-v-697dd5ce="">
+                                    <span data-v-697dd5ce="">{{sumAll(kl10.opencode)}}</span>
+                                    <span data-v-697dd5ce="" :class="{'on':daxiao(kl10.opencode)=='大'}">{{daxiao(kl10.opencode)}}</span>
+                                    <span data-v-697dd5ce="" :class="{'on':danshuang(kl10.opencode)=='双'}">{{danshuang(kl10.opencode)}}</span>
+                                    <span data-v-697dd5ce="" :class="{'on':weishu(kl10.opencode) == '尾大'}">{{weishu(kl10.opencode)}}</span>
+                                </p>
+                                <p data-v-697dd5ce="">
+                                    <span data-v-697dd5ce="" :class="{'on':longhu(kl10.opencode,klindex) =='龙' }" v-for="(item, klindex) in 4"
+                                        :key="klindex">{{longhu(kl10.opencode,klindex)}}</span>
+                                </p>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!-- 11选5 -->
+                <div data-v-30b7a233="" data-v-0eee6599="" id="red" class="zoushi_public" v-if="XU5">
+                    <div data-v-30b7a233="" class="head"><span data-v-30b7a233="" class="public_color">上海11选5走势图</span>
+                        <ul data-v-30b7a233="">
+                            <li data-v-30b7a233="" class="on"><span data-v-30b7a233="">近30期</span></li>
+                            <li data-v-30b7a233="" class=""><span data-v-30b7a233="">近50期</span></li>
+                            <li data-v-30b7a233="" class=""><span data-v-30b7a233="">近200期</span></li>
+                        </ul>
+                    </div>
+                    <div data-v-30b7a233="" class="detail">
+                        <ul data-v-30b7a233="">
+                            <li data-v-30b7a233="" class="clear">
+                                <p data-v-30b7a233="">期数</p>
+                                <p data-v-30b7a233="">开奖时间</p>
+                                <ul data-v-30b7a233="" class="clear">
+                                    <li data-v-30b7a233="" :class="[xu5index==1?'on':'']" @click="showListChange('xu5',1)">显示号码</li>
+                                    <li data-v-30b7a233="" :class="[xu5index==2?'on':'']" @click="showListChange('xu5',2)">显示大小</li>
+                                    <li data-v-30b7a233="" :class="[xu5index==3?'on':'']" @click="showListChange('xu5',3)">显示单双</li>
+                                </ul>
+                                <p data-v-30b7a233="">总和</p>
+                                <p data-v-30b7a233="">龙虎</p>
+                            </li>
+                            <li data-v-30b7a233="" class="clear" v-for="(xu5,index) in ZOUSHI_LIST" :key="index">
+                                <p data-v-30b7a233="">{{xu5.expect}}</p>
+                                <p data-v-30b7a233="">{{xu5.opentime}}</p>
+                                <ul data-v-30b7a233="" class="clear" v-if="xu5index == 1">
+                                    <li data-v-30b7a233="" v-for="(item, index) in xu5.opencode.split(',')" :key="index">{{item}}</li>
+                                </ul>
+                                <ul data-v-30b7a233="" class="clear" v-else-if="xu5index == 2">
+                                    <li data-v-30b7a233="" v-for="(item, index) in xu5.opencode.split(',')" :key="index"
+                                        :class="{'green':xu5dx(item,1) == '小','blue':xu5dx(item,1) == '大'}">{{xu5dx(item,1)}}</li>
+                                </ul>
+                                <ul data-v-30b7a233="" class="clear" v-else>
+                                    <li data-v-30b7a233="" v-for="(item, index) in xu5.opencode.split(',')" :key="index"
+                                        :class="{'green':xu5dx(item,2) == '单','blue':xu5dx(item,2) == '双'}">{{xu5dx(item,2)}}</li>
+                                </ul>
+                                <p data-v-30b7a233="">
+                                    <span data-v-30b7a233="">{{sumAll(xu5.opencode)}}</span>
+                                    <span data-v-30b7a233="" :class="{'on':xu5daxiao(xu5.opencode)=='大'}">{{xu5daxiao(xu5.opencode)}}</span>
+                                    <span data-v-30b7a233="" :class="{'on':danshuang(xu5.opencode)=='双'}">{{danshuang(xu5.opencode)}}</span>
+                                    <span data-v-30b7a233="" :class="{'on':weishu(xu5.opencode)=='尾大'}">{{weishu(xu5.opencode)}}</span>
+                                </p>
+                                <p data-v-30b7a233="" :class="{'on':xu5longhu(xu5.opencode)=='龙'}">{{xu5longhu(xu5.opencode)}}</p>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容替换区结束 -->
+            <!---->
+            <div data-v-94a66012="" data-v-50b23bb5="" class="backFooter">
+                <div data-v-94a66012="" class="container">
+                    <ul data-v-94a66012="" class="tabs">
+                        <li data-v-94a66012="">
+                            技术支持<span data-v-94a66012="">Technica support</span></li>
+                        <li data-v-94a66012="">
+                            服务体验<span data-v-94a66012="">Service experience</span></li>
+                        <li data-v-94a66012="">
+                            充值方式<span data-v-94a66012="">Recharge method</span></li>
+                    </ul>
+                    <ul data-v-94a66012="" class="content">
+                        <li data-v-94a66012="" class="baiying"><img data-v-94a66012="" src="image/computer.png">
+                            <div data-v-94a66012="">
+                                百盈彩票<br data-v-94a66012="">
+                                专业的彩票系统平台
+                            </div>
+                        </li>
+                        <li data-v-94a66012="">
+                            <div data-v-94a66012="" class="time">
+                                昨日充值到账平均时间
+                                <div data-v-94a66012="" class="outer">
+                                    <div data-v-94a66012="" class="inner"></div>
+                                </div> <span data-v-94a66012="">
+                                    <i data-v-94a66012="">分</i></span></div>
+                            <div data-v-94a66012="" class="time">
+                                昨日提现到账平均时间
+                                <div data-v-94a66012="" class="outer">
+                                    <div data-v-94a66012="" class="inner inner2"></div>
+                                </div> <span data-v-94a66012="">
+                                    <i data-v-94a66012="">分</i></span></div>
+                        </li>
+                        <li data-v-94a66012="" class="imgs"><img data-v-94a66012="" src="image/weinxin.png">
+                            <img data-v-94a66012="" src="image/zhifubao.png">
+                            <img data-v-94a66012="" src="image/yinlian.png"></li>
+                    </ul>
+                    <div data-v-94a66012="" class="about_us">
+                        <ul data-v-94a66012="" class="about_list">
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">关于我们</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">联系我们</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">商务合作</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">法律声明</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">隐私声明</a></li>
+                        </ul>
+                        郑重提示 : 彩票有风险，投注需谨慎。不向未满十八岁的青少年出售彩票 !
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/svga.min.js"></script>
+    <script src="./js/jquery-1.11.3.min.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                title: '彩票走势',
+                HOT_LIST: [],
+                ZOUSHI_LIST: [],
+                period: 30,
+                TANFLAG: false,
+                K3: true,
+                SSC: false,
+                PK10: false,
+                KL10: false,
+                XU5: false,
+                k3index: 1,
+                sscindex: 1,
+                pk10index: 1,
+                kl10index: 1,
+                xu5index: 1,
+                // 列表展开页面
+                ALLFLAG: false,
+                ALL_LIST: [],
+                // 登陆相关参数
+                loginObj: {},
+                loginFlag: true,
+                mima: '',
+                zhanghao: '',
+                balance: true,
+                 // 最新余额
+                 checkbalance:'',
+            },
+            mounted() {
+                this.init(this.period)
+                if (localStorage.getItem('loginobj') != null) {
+                    if (JSON.parse(localStorage.getItem('loginobj')).code == 200) {
+                        this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+                        this.loginFlag = false
+                    }
+                } else {
+
+                }
+            },
+            computed: {
+                sumAll() {
+                    return (str) => {
+                        return eval(str.replace(/,/g, "+"))
+                    }
+                },
+                daxiao() {
+                    return (str) => {
+                        let name = ''
+                        if (eval(str.replace(/,/g, "+")) > 84) {
+                            name = '大'
+                        } else if (eval(str.replace(/,/g, "+")) == 84) {
+                            name = '和'
+                        } else {
+                            name = '小'
+                        }
+                        return name
+                    }
+                },
+                xu5daxiao() {
+                    return (str) => {
+                        let name = ''
+                        if (eval(str.replace(/,/g, "+")) > 30) {
+                            name = '大'
+                        } else if (eval(str.replace(/,/g, "+")) == 30) {
+                            name = '和'
+                        } else {
+                            name = '小'
+                        }
+                        return name
+                    }
+                },
+                xu5dx() {
+                    return (str, id) => {
+                        let name = ''
+                        if (id == 1) {
+                            if (str > 5) {
+                                name = '大'
+                            } else if (str == 5) {
+                                name = '和'
+                            } else {
+                                name = '小'
+                            }
+                        } else {
+                            if (str % 2 == 0) {
+                                name = '和'
+                            } else if (str % 2 > 0) {
+                                name = '单'
+                            } else {
+                                name = '双'
+                            }
+                        }
+                        return name
+                    }
+                },
+                danshuang() {
+                    return (str) => {
+                        let name = '';
+                        eval(str.replace(/,/g, "+")) % 2 == 0 ? name = "双" : name = "单"
+                        return name
+                    }
+                },
+                weishu() {
+                    return (str) => {
+                        let name = '';
+                        eval(str.replace(/,/g, '+')) % 10 >= 5 ? name = "尾大" : name = "尾小"
+                        return name
+                    }
+                },
+                longhu() {
+                    return (str, i) => {
+                        let arr = str.split(',');
+                        let num = arr.length;
+                        let name = '';
+                        switch (i) {
+                            case 0:
+                                arr[0] > arr[7] ? name = "龙" : name = "虎";
+                                break;
+                            case 1:
+                                arr[1] > arr[6] ? name = "龙" : name = "虎";
+                                break;
+                            case 2:
+                                arr[2] > arr[5] ? name = "龙" : name = "虎";
+                                break;
+                            case 3:
+                                arr[3] > arr[4] ? name = "龙" : name = "虎";
+                                break;
+
+                            default:
+                                break;
+                        }
+                        return name
+                    }
+                },
+                xu5longhu() {
+                    return (str) => {
+                        let arr = str.split(',');
+                        let name = '';
+                        arr[0] > arr[length - 1] ? name = "龙" : name = "虎";
+                        return name
+                    }
+                },
+                Alldaxiao() {
+                    return (str, index) => {
+                        let name = ''
+                        if (str > index / 2) {
+                            name = '大'
+                        } else {
+                            name = '小'
+                        }
+                        return name
+                    }
+                },
+                Allfangwei() {
+                    return (str) => {
+                        let name = ''
+                        if (str == 1 || str == 5 || str == 13 || str == 17) {
+                            name = '东'
+                        } else if (str == 2 || str == 6 || str == 14 || str == 18) {
+                            name = '南'
+                        } else if (str == 3 || str == 7 || str == 16 || str == 19) {
+                            name = '西'
+                        } else {
+                            name = '北'
+                        }
+                        return name
+                    }
+                },
+                Allzhongfabai() {
+                    return (str) => {
+                        let name = ''
+                        if (str >= 1 && str <= 7) {
+                            name = '中'
+                        } else if (str > 7 && str <= 14) {
+                            name = '发'
+                        } else {
+                            name = '白'
+                        }
+                        return name
+                    }
+                },
+                Allheshu() {
+                    let name, num;
+                    return (str) => {
+                        num = parseInt(str / 10) + (str % 10)
+                        if (num % 2 > 0) {
+                            name = '合数单'
+                        } else {
+                            name = '合数双'
+                        }
+                        return name
+                    }
+                }
+            },
+            methods: {
+                init(e) {
+                    $.ajax({
+                        type: "get",
+                        url: HOST + '/api/lottery/category',
+                        success: (res) => {
+                            // 初始化获取上侧热门列表 
+                            console.log(res);
+                            this.HOT_LIST = res.hot_res;
+                        }
+                    });
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/lottery/trend",
+                        data: {
+                            name: 'jsk3',
+                            period: e
+                        },
+                        success: (res) => {
+                            // 初始化表格
+                            // console.log(res);
+                            this.ZOUSHI_LIST = res.Body;
+                            this.title = res.title;
+                        }
+                    });
+                    $.ajax({
+                        type: "get",
+                        url: HOST + "/api/all/lottery",
+                        success: (res) => {
+                            // 初始化全部彩种
+                            this.ALL_LIST = res.list;
+                        }
+                    });
+                },
+                changelist(e, typeid) {
+                    switch (typeid) {
+                        case 'k3':
+                            this.K3 = true;
+                            this.SSC = false;
+                            this.PK10 = false;
+                            this.KL10 = false;
+                            this.XU5 = false;
+                            break;
+                        case 'ssc':
+                            this.K3 = false;
+                            this.SSC = true;
+                            this.PK10 = false;
+                            this.KL10 = false;
+                            this.XU5 = false;
+
+                            break;
+                        case 'pk10':
+                            this.K3 = false;
+                            this.SSC = false;
+                            this.PK10 = true;
+                            this.KL10 = false;
+                            this.XU5 = false;
+
+                            break;
+                        case 'kl10':
+                            this.K3 = false;
+                            this.SSC = false;
+                            this.PK10 = false;
+                            this.KL10 = true;
+                            this.XU5 = false;
+                            break;
+                        case 'xu5':
+                            this.K3 = false;
+                            this.SSC = false;
+                            this.PK10 = false;
+                            this.KL10 = false;
+                            this.XU5 = true;
+                            break;
+
+                        default:
+                            break;
+                    }
+                    $.ajax({
+                        type: "get",
+                        url: HOST + "/api/lottery/trend",
+                        data: {
+                            name: e,
+                            period: this.period
+                        },
+                        success: (res) => {
+                            console.log(res);
+                            // 动态修改表格
+                            this.ZOUSHI_LIST = res.Body;
+                            this.title = res.title;
+                        }
+                    });
+                },
+                change(e, typeid) {
+                    switch (typeid) {
+                        case 'k3':
+                            this.K3 = true;
+                            this.SSC = false;
+                            this.PK10 = false;
+                            this.KL10 = false;
+                            this.XU5 = false;
+                            break;
+                        case 'ssc':
+                            this.K3 = false;
+                            this.SSC = true;
+                            this.PK10 = false;
+                            this.KL10 = false;
+                            this.XU5 = false;
+
+                            break;
+                        case 'pk10':
+                            this.K3 = false;
+                            this.SSC = false;
+                            this.PK10 = true;
+                            this.KL10 = false;
+                            this.XU5 = false;
+
+                            break;
+                        case 'kl10':
+                            this.K3 = false;
+                            this.SSC = false;
+                            this.PK10 = false;
+                            this.KL10 = true;
+                            this.XU5 = false;
+                            break;
+                        case 'xu5':
+                            this.K3 = false;
+                            this.SSC = false;
+                            this.PK10 = false;
+                            this.KL10 = false;
+                            this.XU5 = true;
+                            break;
+
+                        default:
+                            break;
+                    }
+                    $.ajax({
+                        type: "get",
+                        url: HOST + "/api/lottery/trend",
+                        data: {
+                            name: e,
+                            period: this.period
+                        },
+                        success: (res) => {
+                            console.log(res);
+                            // 动态修改表格
+                            this.ZOUSHI_LIST = res.Body;
+                            this.title = res.title;
+                        }
+                    });
+                },
+                showListChange(type, index) {
+                    if (type == 'ssc') {
+                        this.k3index = index
+                    } else if (type == 'pk10') {
+                        this.pk10index = index
+                    } else if (type == 'kl10') {
+                        this.kl10index = index
+                    } else if (type == 'xu5') {
+                        this.xu5index = index
+                    }
+                },
+                JumpGo(arr) {
+                    switch (arr.typeid) {
+                        case 'k3':
+                            window.location.href = "./total_buy/index.html?name=" + arr.name
+                            break;
+                        case 'ssc':
+                            window.location.href = "./total_buy/ssc.html?name=" + arr.name
+                            break;
+                        case 'pk10':
+                            window.location.href = "./total_buy/pk10.html?name=" + arr.name
+                            break;
+                        case 'kl10':
+                            window.location.href = "./total_buy/kl10.html?name=" + arr.name
+                            break;
+                        case 'xu5':
+                            window.location.href = "./total_buy/xu5.html?name=" + arr.name
+                            break;
+
+                        default:
+                            break;
+                    }
+                },
+                login() {
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/lottery/login",
+                        data: {
+                            account: this.zhanghao,
+                            password: this.mima
+                        },
+                        success: res => {
+                            console.log(res);
+                            if (res.code == 200) {
+                                localStorage.setItem('loginobj', JSON.stringify(res))
+                                this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+                                this.loginFlag = false
+                            }else{
+                                this.cengFlag = true;
+                                this.cengtitle = res.msg
+                            }
+                            console.log(this.loginObj);
+                        }
+                    });
+                },
+                checkbalances() {
+                    this.balance = !this.balance;
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/user/indexMain",
+                        data: {
+                            session_id: this.loginObj.session_id
+                        },
+                        success: (res) => {
+                            console.log(res);
+                            this.checkbalance = res.res.balance;
+                        }
+                    });
+                },
+                regist() {
+                    window.location.href = "./login/regist.html"
+                },
+                out() {
+                    this.loginFlag = true;
+                    localStorage.removeItem('loginobj')
+                },
+                gerezhongxin() {
+          window.location.href = "./user/index.html"
+        }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

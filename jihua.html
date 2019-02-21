@@ -1,0 +1,639 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>必赢彩票</title>
+    <style>
+        .bullets>.swiper-pagination-bullet {
+            background: rgba(255, 255, 255, 0.8);
+            opacity: 1;
+        }
+
+        .bullets.liwu>.swiper-pagination-bullet {
+            background: #999;
+        }
+
+        .bullets>.swiper-pagination-bullet.swiper-pagination-bullet-active {
+            background: #d80b2a;
+        }
+
+        .loading {
+            background-image: url("./image/load.gif");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+
+    <style type="text/css">
+        :root .content>a>.topline,
+        :root .container>a.mid-wrapper {
+            display: none !important;
+        }
+    </style>
+    <link href="./css/app.baiying.css" rel="stylesheet">
+
+</head>
+
+<body class="">
+    <div id="app" v-cloak>
+        <div data-v-50b23bb5="" id="red" class="zoushi">
+            <div data-v-0ac3c666="" data-v-50b23bb5="" class="backHeader">
+                <div data-v-0ac3c666="" class="top">
+                    <div data-v-0ac3c666="" class="container">
+                        你好，欢迎光临必赢彩票 !
+                        <ul data-v-0ac3c666="" class="tabs">
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/zhuce" class="">加入代理</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/user" class="">用户中心</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/touzhu" class="">投注记录</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/help" class="">帮助中心</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" class="public_color">在线客服</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <header data-v-0ac3c666="">
+                    <div data-v-0ac3c666="" class="container"><img data-v-0ac3c666="" src="image/d5ed1404201945c8.png">
+                        <div data-v-0ac3c666="" class="unlogin_container" v-if="loginFlag==true">
+                            <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="image/user-icon_03.png">
+                                <input data-v-0ac3c666="" type="text" placeholder="用户名" v-model="zhanghao"></div>
+                            <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="image/luck.png">
+                                <input data-v-0ac3c666="" type="password" placeholder="密码" v-model="mima"></div>
+                            <button data-v-0ac3c666="" class="public_back" @click="login()">登录</button> <button
+                                data-v-0ac3c666="" class="regist" @click="regist()">注册</button>
+                        </div>
+                        <ul data-v-0ac3c666="" class="login_container" v-else>
+                            <li data-v-0ac3c666="" class="username"><img data-v-0ac3c666="" :src="loginObj.url" @click="gerezhongxin()">
+                                您好，<a data-v-0ac3c666="" class="public_color">{{loginObj.account}}</a>
+                                <!---->
+                            </li>
+                            <li data-v-0ac3c666="" class="show_yue">
+                                可用余额:
+                                <span data-v-0ac3c666="" class="public_color" v-if="balance">(已隐藏)</span>
+                                <span data-v-0ac3c666="" class="public_color" v-else>{{checkbalance}}元</span>
+                                <img data-v-0ac3c666="" src="image/hidden.png" @click="checkbalances()"></li>
+                            <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/recharge" class="">充值</a></li>
+                            <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/tixian" class="">提现</a></li>
+                            <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" @click="out()">退出</a></li>
+                        </ul>
+                    </div>
+                </header>
+                <div data-v-0ac3c666="" class="menu public_back">
+                    <div data-v-0ac3c666="" class="container">
+                        <div data-v-0ac3c666="" class="menuLeft"><img data-v-0ac3c666="" src="image/classify.png">
+                            全部彩种分类
+                            <ul data-v-0ac3c666="" class="all_lottery public_color" v-if="ALLFLAG">
+                                <li data-v-0ac3c666="" v-for="(allitem, index) in ALL_LIST" :key="index" v-if="index>=1">
+                                    <p data-v-0ac3c666="">{{allitem.cp_name}}</p>
+                                    <div data-v-0ac3c666="" v-for="(listitem, index) in allitem.list" :key="index">
+                                        <span data-v-0ac3c666="" @click="JumpGo(listitem)">{{listitem.title}}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul data-v-0ac3c666="" class="menuRight">
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./index.html">首页</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./hall.html">购彩大厅</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <div data-v-0ac3c666="" class="hot"><img data-v-0ac3c666="" src="image/hot2.png">
+                                    <img data-v-0ac3c666="" src="image/hot2.gif"></div>
+                                <a data-v-0ac3c666="" href="./buy.html">直播间</a>
+                            </li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./yhHuodong.html">优惠活动</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./zoushi.html">走势图</a></li>
+                            <li data-v-0ac3c666="" class="red">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./jihua.html">精准计划</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./notice.html">网站公告</a></li>
+                            <li data-v-0ac3c666="" class=""><img data-v-0ac3c666="" src="image/phone-icon.png" style="width: 15px;">
+                                <!----> <a data-v-0ac3c666="" href="./phone_buy.html">手机购彩</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容替换区 -->
+
+            <div data-v-42279006="" class="container clear">
+                <div data-v-42279006="" class="table">
+                    <div data-v-42279006="" class="head"><span data-v-42279006="" class="public_color">安徽快三精准计划表</span>
+                        <div data-v-42279006="" class="shuaxin"><img data-v-42279006="" src="image/shuaxin.png">
+                            <p data-v-42279006="">手动刷新</p>
+                        </div>
+                    </div>
+                    <div data-v-42279006="" class="content">
+                        <ul data-v-42279006="" class="list">
+                            <li data-v-42279006="" class="on">安徽快三</li>
+                            <li data-v-42279006="">江苏快三</li>
+                            <li data-v-42279006="">广西快三</li>
+                            <li data-v-42279006="">湖北快三</li>
+                            <li data-v-42279006="">内蒙古快三</li>
+                            <li data-v-42279006="">北京快三</li>
+                            <li data-v-42279006="">河北快三</li>
+                            <li data-v-42279006="">上海快三</li>
+                            <li data-v-42279006="">甘肃快三</li>
+                            <li data-v-42279006="">百盈快三</li>
+                            <li data-v-42279006="">重庆时时彩</li>
+                            <li data-v-42279006="">新疆时时彩</li>
+                            <li data-v-42279006="">天津时时彩</li>
+                            <li data-v-42279006="">广东11选5</li>
+                            <li data-v-42279006="">上海11选5</li>
+                            <li data-v-42279006="">山东11选5</li>
+                            <li data-v-42279006="">江西11选5</li>
+                            <li data-v-42279006="">北京PK10</li>
+                            <li data-v-42279006="">PC蛋蛋</li>
+                            <li data-v-42279006="">幸运飞艇</li>
+                            <li data-v-42279006="">幸运农场</li>
+                            <li data-v-42279006="">广东快乐十分</li>
+                            <li data-v-42279006="">天津快乐十分</li>
+                            <li data-v-42279006="">百盈时时彩</li>
+                            <li data-v-42279006="">百盈pk10</li>
+                            <li data-v-42279006="">香港六合彩</li>
+                            <li data-v-42279006="">百盈六合彩</li>
+                            <li data-v-42279006="">吉林快三</li>
+                            <li data-v-42279006="">比特币彩</li>
+                            <li data-v-42279006="">莱特币彩</li>
+                            <li data-v-42279006="">以太坊彩</li>
+                        </ul>
+                        <div data-v-42279006="" class="right">
+                            <div data-v-42279006="" class="title">
+                                <p data-v-42279006="" class="on">和值大小</p>
+                                <p data-v-42279006="" class="">和值单双</p>
+                                <!---->
+                            </div>
+                            <ul data-v-42279006="" class="con">
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">计划期间</p>
+                                    <p data-v-42279006="">预测</p>
+                                    <p data-v-42279006="">状态</p>
+                                    <p data-v-42279006="">期数</p>
+                                    <p data-v-42279006="">所开号码</p>
+                                    <p data-v-42279006="">计划结果</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">046-048期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">进行中</p>
+                                    <p data-v-42279006="">---</p>
+                                    <p data-v-42279006="">---</p>
+                                    <p data-v-42279006="">---</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">043-045期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127045</p>
+                                    <p data-v-42279006="">5</p>
+                                    <p data-v-42279006="">2中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">040-042期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127041</p>
+                                    <p data-v-42279006="">13</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">037-039期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127039</p>
+                                    <p data-v-42279006="">10</p>
+                                    <p data-v-42279006="">3中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">034-036期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127034</p>
+                                    <p data-v-42279006="">13</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">031-033期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127032</p>
+                                    <p data-v-42279006="">11</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">028-030期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127030</p>
+                                    <p data-v-42279006="">8</p>
+                                    <p data-v-42279006="">2中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">025-027期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127027</p>
+                                    <p data-v-42279006="">7</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">022-024期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127024</p>
+                                    <p data-v-42279006="">9</p>
+                                    <p data-v-42279006="">2中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">019-021期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127021</p>
+                                    <p data-v-42279006="">9</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">016-018期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127017</p>
+                                    <p data-v-42279006="">12</p>
+                                    <p data-v-42279006="">2中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">013-015期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127015</p>
+                                    <p data-v-42279006="">9</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">010-012期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127011</p>
+                                    <p data-v-42279006="">10</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">007-009期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127009</p>
+                                    <p data-v-42279006="">18</p>
+                                    <p data-v-42279006="">2中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">004-006期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127005</p>
+                                    <p data-v-42279006="">8</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">001-003期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181127002</p>
+                                    <p data-v-42279006="">4</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">079-080期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181126079</p>
+                                    <p data-v-42279006="">4</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">076-078期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181126078</p>
+                                    <p data-v-42279006="">8</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">073-075期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181126075</p>
+                                    <p data-v-42279006="">15</p>
+                                    <p data-v-42279006="">2中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">070-072期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181126072</p>
+                                    <p data-v-42279006="">11</p>
+                                    <p data-v-42279006="">2中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">067-069期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181126068</p>
+                                    <p data-v-42279006="">10</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">064-066期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181126065</p>
+                                    <p data-v-42279006="">13</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">061-063期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">小</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181126063</p>
+                                    <p data-v-42279006="">16</p>
+                                    <p data-v-42279006="">2中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">058-060期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">大</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">大</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181126059</p>
+                                    <p data-v-42279006="">11</p>
+                                    <p data-v-42279006="">1中</p>
+                                </li>
+                                <li data-v-42279006="">
+                                    <p data-v-42279006="">055-057期</p>
+                                    <p data-v-42279006=""><span data-v-42279006="">小</span><span data-v-42279006="">大</span><span
+                                            data-v-42279006="">小</span></p>
+                                    <!---->
+                                    <p data-v-42279006="">开</p>
+                                    <p data-v-42279006="">20181126056</p>
+                                    <p data-v-42279006="">14</p>
+                                    <p data-v-42279006="">2中</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容替换区结束 -->
+            <!---->
+            <div data-v-94a66012="" data-v-50b23bb5="" class="backFooter">
+                <div data-v-94a66012="" class="container">
+                    <ul data-v-94a66012="" class="tabs">
+                        <li data-v-94a66012="">
+                            技术支持<span data-v-94a66012="">Technica support</span></li>
+                        <li data-v-94a66012="">
+                            服务体验<span data-v-94a66012="">Service experience</span></li>
+                        <li data-v-94a66012="">
+                            充值方式<span data-v-94a66012="">Recharge method</span></li>
+                    </ul>
+                    <ul data-v-94a66012="" class="content">
+                        <li data-v-94a66012="" class="baiying"><img data-v-94a66012="" src="image/computer.png">
+                            <div data-v-94a66012="">
+                                百盈彩票<br data-v-94a66012="">
+                                专业的彩票系统平台
+                            </div>
+                        </li>
+                        <li data-v-94a66012="">
+                            <div data-v-94a66012="" class="time">
+                                昨日充值到账平均时间
+                                <div data-v-94a66012="" class="outer">
+                                    <div data-v-94a66012="" class="inner"></div>
+                                </div> <span data-v-94a66012="">
+                                    <i data-v-94a66012="">分</i></span></div>
+                            <div data-v-94a66012="" class="time">
+                                昨日提现到账平均时间
+                                <div data-v-94a66012="" class="outer">
+                                    <div data-v-94a66012="" class="inner inner2"></div>
+                                </div> <span data-v-94a66012="">
+                                    <i data-v-94a66012="">分</i></span></div>
+                        </li>
+                        <li data-v-94a66012="" class="imgs"><img data-v-94a66012="" src="image/weinxin.png">
+                            <img data-v-94a66012="" src="image/zhifubao.png">
+                            <img data-v-94a66012="" src="image/yinlian.png"></li>
+                    </ul>
+                    <div data-v-94a66012="" class="about_us">
+                        <ul data-v-94a66012="" class="about_list">
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">关于我们</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">联系我们</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">商务合作</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">法律声明</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">隐私声明</a></li>
+                        </ul>
+                        郑重提示 : 彩票有风险，投注需谨慎。不向未满十八岁的青少年出售彩票 !
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/svga.min.js"></script>
+    <script src="./js/jquery-1.11.3.min.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                title: '首页',
+                HOT_LIST: [],
+                ALL_LIST: [],
+                ALLFLAG: false,
+                QUICKDATA: 0,
+                QUICK_LIST: [],
+                NOTICE_LIST: [],
+                MEMBER_LIST: [],
+                NEWS_LIST: [],
+                // 登陆相关参数
+                loginObj: {},
+                loginFlag: true,
+                mima: '',
+                zhanghao: '',
+                balance: true,
+                // 最新余额
+                checkbalance: '',
+            },
+            mounted() {
+                this.init()
+                if (localStorage.getItem('loginobj') != null) {
+                    if (JSON.parse(localStorage.getItem('loginobj')).code == 200) {
+                        this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+                        this.loginFlag = false
+                    }
+                } else {
+
+                }
+            },
+            methods: {
+                init() {
+                    $.ajax({
+                        type: "get",
+                        url: HOST + '/api/lottery/category',
+                        success: (res) => {
+                            // 初始化获取左侧热门列表 
+                            this.HOT_LIST = res.hot_res;
+                            this.ALL_LIST = res.res;
+                        }
+                    });
+                    $.ajax({
+                        type: "get",
+                        url: HOST + "/api/draw/notice",
+                        success: (res) => {
+                            // 初始化获取快速切换投注
+                            this.QUICK_LIST = res.quick_res;
+                            this.NOTICE_LIST = res.notice_res;
+                            this.MEMBER_LIST = res.member_res;
+                        }
+                    });
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/website/notice",
+                        data: {
+                            page: 1,
+                            index: 8
+                        },
+                        success: (res) => {
+                            // 初始化获取新闻列表
+                            console.log(res);
+                            this.NEWS_LIST = res.res;
+                        }
+                    });
+                },
+                JumpGo(arr) {
+                    switch (arr.typeid) {
+                        case 'k3':
+                            window.location.href = "./total_buy/index.html?name=" + arr.name
+                            break;
+                        case 'ssc':
+                            window.location.href = "./total_buy/ssc.html?name=" + arr.name
+                            break;
+                        case 'pk10':
+                            window.location.href = "./total_buy/pk10.html?name=" + arr.name
+                            break;
+                        case 'kl10':
+                            window.location.href = "./total_buy/kl10.html?name=" + arr.name
+                            break;
+                        case 'xu5':
+                            window.location.href = "./total_buy/xu5.html?name=" + arr.name
+                            break;
+
+                        default:
+                            break;
+                    }
+                },
+                login() {
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/lottery/login",
+                        data: {
+                            account: this.zhanghao,
+                            password: this.mima
+                        },
+                        success: res => {
+                            console.log(res);
+                            if (res.code == 200) {
+                                localStorage.setItem('loginobj', JSON.stringify(res))
+                                this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+                                this.loginFlag = false
+                            } else {
+                                this.cengFlag = true;
+                                this.cengtitle = res.msg
+                            }
+                            console.log(this.loginObj);
+                        }
+                    });
+                },
+                checkbalances() {
+                    this.balance = !this.balance;
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/user/indexMain",
+                        data: {
+                            session_id: this.loginObj.session_id
+                        },
+                        success: (res) => {
+                            console.log(res);
+                            this.checkbalance = res.res.balance;
+                        }
+                    });
+                },
+                regist() {
+                    window.location.href = "./login/regist.html"
+                },
+                out() {
+                    this.loginFlag = true;
+                    localStorage.removeItem('loginobj')
+                },
+                gerezhongxin() {
+                    window.location.href = "./user/index.html"
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

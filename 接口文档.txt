@@ -1,0 +1,17 @@
+端口地址：192.168.1.254:5000
+端口名称：
+/api/lottery/category    ----    热门彩种以及全部彩种
+/api/draw/notice            ----    quick_res:快速投注切换  notice_res:开奖公告 member_res:中奖信息
+/api/website/notice   （post）    ----    网站公告 page 页码  index 每页多少条
+/api/lottery/trend      （post）    ----     name  ='jsk3'  period 期数
+
+
+/api/play/category      	     ----    传一个category=k3  类型值
+/api/all/lottery 		     ----    所有彩种    
+/api/play/lottery 	     （post）     ----    彩票类别   typeid   
+/api/lottery/draw          （post）    ----    name获取彩票开奖
+
+
+/api/lottery/register       （post）    ----- 注册接口   invite_code 邀请码 account 用户名 password 密码
+/api/lottery/login           （post）    -----  登录 account用户名 password密码
+

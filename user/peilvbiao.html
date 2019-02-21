@@ -1,0 +1,234 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>必赢彩票</title>
+  <style>
+    .bullets>.swiper-pagination-bullet {
+      background: rgba(255, 255, 255, 0.8);
+      opacity: 1;
+    }
+
+    .bullets.liwu>.swiper-pagination-bullet {
+      background: #999;
+    }
+
+    .bullets>.swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background: #d80b2a;
+    }
+
+    .loading {
+      background-image: url("../image/load.gif");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    #red .public_color {
+      color: #f33;
+      border-color: #fc1805;
+    }
+  </style>
+
+  <style type="text/css">
+    :root .content>a>.topline,
+    :root .container>a.mid-wrapper {
+      display: none !important;
+    }
+
+  </style>
+  <link href="../css/app.baiying.css" rel="stylesheet">
+
+</head>
+
+<body class="">
+  <div id="app" v-cloak>
+    <div data-v-344257c0="" class="container">
+      <div data-v-344257c0="" class="title">代理返点赔率表</div>
+      <div data-v-344257c0="" class="first">
+        <div data-v-344257c0="" class="back"></div> <img data-v-344257c0="" src="http://resourcebiyingweb.baiycdn.com/static/image/pl_head_2.png">
+        <img data-v-344257c0="" src="http://resourcebiyingweb.baiycdn.com/static/image/pl_head_3.png"> <img
+          data-v-344257c0="" src="http://resourcebiyingweb.baiycdn.com/static/image/pl_head_4.png">
+        <ul data-v-344257c0="">
+          <li data-v-344257c0="" :class="{'on':index == da_index}" v-for="(item,index) in da_list" :key="index" @click="changelist(item,index)">{{item.title}}</li>
+        </ul>
+      </div>
+      <ul data-v-344257c0="" class="caizhong">
+        <li data-v-344257c0="" :class="{'public_color':index == xiao_index}" v-for="(item, index) in xiao_list" :key="index"
+          @click="changexiaolist(item,index)">{{item.title}}</li>
+      </ul>
+      <div data-v-344257c0="" class="last">
+        <ul data-v-344257c0="">
+          <li data-v-344257c0=""><span data-v-344257c0="">玩法</span> <span data-v-344257c0="">返点</span></li>
+          <li data-v-344257c0="" v-for="(item,index) in ALL_LIST" :key="index">{{item.play_detail_name}}/{{item.title}}</li>
+        </ul>
+        <div data-v-344257c0="" class="clear">
+
+          <ul data-v-344257c0=""   v-if="point_flag"  >
+            <li data-v-344257c0="" class="on" @click="togglexiaoshu()">{{point+xiaoshu}}
+              <span data-v-344257c0="" >展开</span></li>
+            <li data-v-344257c0=""  v-for="(item, index2) in ALL_LIST" :key="index2">赔率{{peilv(item,xiaoshu)}}</li>
+          </ul>
+          <ul data-v-344257c0="" v-for="(item, index) in point" :key="index" v-if="toggle_flag">
+            <li data-v-344257c0="" class="on" @click="toggle(index)">{{point-index}}.0
+              <span data-v-344257c0="" >展开</span></li>
+            <li data-v-344257c0=""  v-for="(item, index2) in ALL_LIST" :key="index2">赔率{{peilv(item,index)}}</li>
+          </ul>
+          <ul data-v-344257c0="" v-for="(item, index) in 10" :key="index" v-if="details_flag==false">
+            <li data-v-344257c0="" class="on" @click="toggle02()">{{(toggle_index - (index/10)).toFixed(1)}}
+              <span data-v-344257c0="" v-if="index == 0">收起</span></li>
+              <li data-v-344257c0=""  v-for="(item, index3) in ALL_LIST" :key="index3">赔率{{peilv(item,index/10)}}</li>
+          </ul>
+          <ul data-v-344257c0="" v-for="(item, index) in xiaoshu_big" :key="index" v-if="xiaoshu_flag==false">
+              <li data-v-344257c0="" class="on" @click="toggle03()">{{(xiaoshu - (index/10)).toFixed(1)}}
+                <span data-v-344257c0="" v-if="index == 0">收起</span></li>
+                <li data-v-344257c0=""  v-for="(item, index3) in ALL_LIST" :key="index3">赔率{{peilv(item,index/10)}}</li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/svga.min.js"></script>
+  <script src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../js/vue.js"></script>
+  <script src="../js/index.js"></script>
+  <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        title: '全部彩种',
+        HOT_LIST: [],
+        ALL_LIST: [],
+        LISTINDEX: 0,
+        // 登陆相关参数
+        loginObj: {},
+        loginFlag: true,
+        mima: '',
+        zhanghao: '',
+        balance: true,
+        // 弹出层参数
+        cengtitle: '',
+        cengFlag: false,
+        // 最新余额
+        checkbalance: '',
+        // 大彩种参数
+        da_list: [],
+        da_index: 0,
+        xiao_list: [],
+        xiao_index: 0,
+        toggle_index:0,
+        toggle_flag:true,
+        details_flag:true,
+        point:'',
+        xiaoshu:'',
+        point_flag:true,
+        xiaoshu_flag:true,
+        xiaoshu_flag01:true,
+        xiaoshu_big:'',
+      },
+      mounted() {
+        if (localStorage.getItem('loginobj') != null) {
+          if (JSON.parse(localStorage.getItem('loginobj')).code == 200) {
+            this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+            this.loginFlag = false
+            if( String(this.loginObj.point).indexOf(".") <0){
+              this.point = this.loginObj.point;
+              this.point_flag=false;
+            }else{
+              this.point = parseInt(this.loginObj.point)
+              this.xiaoshu = this.loginObj.point-this.point
+              this.xiaoshu_big = parseInt(this.xiaoshu*10)
+            }
+          }
+        } else {
+          window.location.href = "../index.html"
+        }
+        this.init()
+      },
+      computed: {
+        peilv(){
+          return(item,index)=>{
+            let num = item.rate-(this.loginObj.point_user_type-(this.loginObj.point-index))*item.formula
+            return num.toFixed(3) 
+          }
+        }
+      },
+      methods: {
+        init() {
+          $.ajax({
+            type: "post",
+            url: HOST + "/api/rebate/list",
+            data: {
+              typeid: 'k3'
+            },
+            success: (res) => {
+              console.log(res);
+              this.ALL_LIST = res.list;
+            }
+          });
+          $.ajax({
+            type: "post",
+            url: HOST + "/api/rebate/lottery",
+            data: {
+              session_id: this.loginObj.session_id
+            },
+            success: (res) => {
+              console.log(res);
+              this.da_list = res.list
+              this.xiao_list = res.list["0"].list
+            }
+          });
+        },
+        changelist(item, index) {
+          this.da_index = index;
+          this.xiao_list = this.da_list[index].list
+          $.ajax({
+            type: "post",
+            url: HOST + "/api/rebate/list",
+            data: {
+              typeid: item.typeid
+            },
+            success: (res) => {
+              console.log(res);
+              this.ALL_LIST = res.list;
+            }
+          });
+        },
+        changexiaolist(item, index) {
+          this.xiao_index = index
+
+        },
+        toggle(index){
+          this.toggle_flag = false;
+          this.point_flag = false;
+          this.details_flag = false
+          this.toggle_index =  this.point-index;
+          console.log('123');
+        },
+        toggle02(){
+          this.toggle_flag = true;
+          this.xiaoshu_flag = true;
+          this.details_flag = true
+        },
+        toggle03(){
+          this.toggle_flag = true;
+          this.point_flag = true;
+          this.xiaoshu_flag = true;
+          this.details_flag = true
+        },
+        togglexiaoshu(){
+          this.xiaoshu_flag = false;
+          this.toggle_flag = false;
+          this.point_flag = false;
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

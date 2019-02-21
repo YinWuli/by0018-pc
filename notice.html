@@ -1,0 +1,371 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>必赢彩票</title>
+    <style>
+        .bullets>.swiper-pagination-bullet {
+            background: rgba(255, 255, 255, 0.8);
+            opacity: 1;
+        }
+
+        .bullets.liwu>.swiper-pagination-bullet {
+            background: #999;
+        }
+
+        .bullets>.swiper-pagination-bullet.swiper-pagination-bullet-active {
+            background: #d80b2a;
+        }
+
+        .loading {
+            background-image: url("./image/load.gif");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+
+    <style type="text/css">
+        :root .content>a>.topline,
+        :root .container>a.mid-wrapper {
+            display: none !important;
+        }
+    </style>
+    <link href="./css/app.baiying.css" rel="stylesheet">
+
+</head>
+
+<body class="">
+    <div id="app" v-cloak >
+        <div data-v-50b23bb5="" id="red" class="index">
+            <div data-v-0ac3c666="" data-v-50b23bb5="" class="backHeader">
+                <div data-v-0ac3c666="" class="top">
+                    <div data-v-0ac3c666="" class="container">
+                        你好，欢迎光临必赢彩票 !
+                        <ul data-v-0ac3c666="" class="tabs">
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/zhuce" class="">加入代理</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/user" class="">用户中心</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/touzhu" class="">投注记录</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/help" class="">帮助中心</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" class="public_color">在线客服</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <header data-v-0ac3c666="">
+                        <div data-v-0ac3c666="" class="unlogin_container" v-if="loginFlag==true">
+                                <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="image/user-icon_03.png">
+                                    <input data-v-0ac3c666="" type="text" placeholder="用户名" v-model="zhanghao"></div>
+                                <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="image/luck.png">
+                                    <input data-v-0ac3c666="" type="password" placeholder="密码" v-model="mima"></div>
+                                <button data-v-0ac3c666="" class="public_back" @click="login()">登录</button> <button
+                                    data-v-0ac3c666="" class="regist" @click="regist()">注册</button>
+                            </div>
+                            <ul data-v-0ac3c666="" class="login_container" v-else>
+                                <li data-v-0ac3c666="" class="username"><img data-v-0ac3c666="" :src="loginObj.url" @click="gerezhongxin()">
+                                    您好，<a data-v-0ac3c666="" class="public_color">{{loginObj.account}}</a>
+                                    <!---->
+                                </li>
+                                <li data-v-0ac3c666="" class="show_yue">
+                                    可用余额:
+                                    <span data-v-0ac3c666="" class="public_color" v-if="balance">(已隐藏)</span>
+                                    <span data-v-0ac3c666="" class="public_color" v-else>{{checkbalance}}元</span>
+                                                                     <img data-v-0ac3c666="" src="image/hidden.png" @click="checkbalances()"></li>
+                                <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/recharge" class="">充值</a></li>
+                                <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/tixian" class="">提现</a></li>
+                                <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" @click="out()">退出</a></li>
+                            </ul>
+                </header>
+                <div data-v-0ac3c666="" class="menu public_back">
+                    <div data-v-0ac3c666="" class="container">
+                        <div data-v-0ac3c666="" class="menuLeft" @mouseenter="ALLFLAG = true" @mouseleave="ALLFLAG = false"><img
+                                data-v-0ac3c666="" src="image/classify.png">
+                            全部彩种分类
+                            <ul data-v-0ac3c666="" class="all_lottery public_color" v-if="ALLFLAG">
+                                <li data-v-0ac3c666="" v-for="(allitem, index) in ALL_LIST" :key="index" v-if="index>=1">
+                                    <p data-v-0ac3c666="">{{allitem.cp_name}}</p>
+                                    <div data-v-0ac3c666="" v-for="(listitem, index) in allitem.list" :key="index">
+                                        <span data-v-0ac3c666="" @click="JumpGo(listitem)">{{listitem.title}}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul data-v-0ac3c666="" class="menuRight">
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./index.html">首页</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./hall.html">购彩大厅</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <div data-v-0ac3c666="" class="hot"><img data-v-0ac3c666="" src="image/hot2.png">
+                                    <img data-v-0ac3c666="" src="image/hot2.gif"></div>
+                                <a data-v-0ac3c666="" href="./buy.html">直播间</a>
+                            </li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./yhHuodong.html">优惠活动</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./zoushi.html">走势图</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./jihua.html">精准计划</a></li>
+                            <li data-v-0ac3c666="" class="red">
+                                <!---->
+                                <!---->
+                                <!----> <a data-v-0ac3c666="" href="./notice.html">网站公告</a></li>
+                            <li data-v-0ac3c666="" class=""><img data-v-0ac3c666="" src="image/phone-icon.png" style="width: 15px;">
+                                <!----> <a data-v-0ac3c666="" href="./phone_buy.html">手机购彩</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容替换区 -->
+
+            <div data-v-4d7857db="" class="container">
+                <div data-v-4d7857db="" class="title"><span data-v-4d7857db="" class="public_color">网站公告</span></div>
+                <ul data-v-4d7857db="" class="notices">
+                    <li data-v-4d7857db="" v-for="(item, index) in NEWS_LIST" :key="index"><a data-v-4d7857db="" class="text-overflow font_change">{{item.title}}</a>
+                        {{item.addtime}}
+                    </li>
+
+                </ul>
+                <div data-v-61836096="" data-v-4d7857db="" class="page">
+                    <ul data-v-61836096="">
+                        <li data-v-61836096="" :class="{'active':index == pageflag}" v-for="(page,index) in  page" :key="index"
+                            @click="newschange(index)">{{page}}</li>
+
+                        <!---->
+                    </ul>
+                    <div data-v-61836096="">
+                        共{{page}}页<span data-v-61836096="">，跳转至第<input data-v-61836096="" type="text" v-model="pagenum">页</span></div>
+                    <button data-v-61836096="" class="public_btn" @click="sureChange()">确定</button>
+                </div>
+            </div>
+
+            <!-- 内容替换区结束 -->
+            <!---->
+            <div data-v-94a66012="" data-v-50b23bb5="" class="backFooter">
+                <div data-v-94a66012="" class="container">
+                    <ul data-v-94a66012="" class="tabs">
+                        <li data-v-94a66012="">
+                            技术支持<span data-v-94a66012="">Technica support</span></li>
+                        <li data-v-94a66012="">
+                            服务体验<span data-v-94a66012="">Service experience</span></li>
+                        <li data-v-94a66012="">
+                            充值方式<span data-v-94a66012="">Recharge method</span></li>
+                    </ul>
+                    <ul data-v-94a66012="" class="content">
+                        <li data-v-94a66012="" class="baiying"><img data-v-94a66012="" src="image/computer.png">
+                            <div data-v-94a66012="">
+                                百盈彩票<br data-v-94a66012="">
+                                专业的彩票系统平台
+                            </div>
+                        </li>
+                        <li data-v-94a66012="">
+                            <div data-v-94a66012="" class="time">
+                                昨日充值到账平均时间
+                                <div data-v-94a66012="" class="outer">
+                                    <div data-v-94a66012="" class="inner"></div>
+                                </div> <span data-v-94a66012="">
+                                    <i data-v-94a66012="">分</i></span></div>
+                            <div data-v-94a66012="" class="time">
+                                昨日提现到账平均时间
+                                <div data-v-94a66012="" class="outer">
+                                    <div data-v-94a66012="" class="inner inner2"></div>
+                                </div> <span data-v-94a66012="">
+                                    <i data-v-94a66012="">分</i></span></div>
+                        </li>
+                        <li data-v-94a66012="" class="imgs"><img data-v-94a66012="" src="image/weinxin.png">
+                            <img data-v-94a66012="" src="image/zhifubao.png">
+                            <img data-v-94a66012="" src="image/yinlian.png"></li>
+                    </ul>
+                    <div data-v-94a66012="" class="about_us">
+                        <ul data-v-94a66012="" class="about_list">
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">关于我们</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">联系我们</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">商务合作</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">法律声明</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">隐私声明</a></li>
+                        </ul>
+                        郑重提示 : 彩票有风险，投注需谨慎。不向未满十八岁的青少年出售彩票 !
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/svga.min.js"></script>
+    <script src="./js/jquery-1.11.3.min.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/index.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                title: '新闻列表',
+                pagenum: 1,
+                pageindex: 8,
+                NEWS_LIST: [],
+                pageflag: 0,
+                // 列表展开页面
+                ALLFLAG: false,
+                ALL_LIST: [],
+                page: 0,
+                // 登陆相关参数
+                loginObj: {},
+                loginFlag: true,
+                mima: '',
+                zhanghao: '',
+                balance:true,
+                 // 最新余额
+                 checkbalance:'',
+            },
+            mounted() {
+                this.init()
+                if (localStorage.getItem('loginobj') != null) {
+                    if (JSON.parse(localStorage.getItem('loginobj')).code == 200) {
+                        this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+                        this.loginFlag = false
+                    }
+                } else {
+
+                }
+            },
+            methods: {
+                init() {
+                    $.ajax({
+                        type: "get",
+                        url: HOST + "/api/all/lottery",
+                        success: (res) => {
+                            // 初始化全部彩种
+                            this.ALL_LIST = res.list;
+                        }
+                    });
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/website/notice",
+                        data: {
+                            page: this.pagenum,
+                            index: this.pageindex
+                        },
+                        success: (res) => {
+                            // 初始化获取新闻列表
+                            console.log(res);
+                            this.NEWS_LIST = res.res;
+                            this.page = res.max_page
+                        }
+                    });
+                },
+                newschange(e, id) {
+                    this.pageflag = e;
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/website/notice",
+                        data: {
+                            page: e + 1,
+                            index: this.pageindex
+                        },
+                        success: (res) => {
+                            // 重复加载
+                            console.log(res);
+                            this.NEWS_LIST = res.res;
+                        }
+                    });
+                },
+                sureChange() {
+                    this.pageflag = this.pagenum - 1
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/website/notice",
+                        data: {
+                            page: this.pagenum,
+                            index: this.pageindex
+                        },
+                        success: (res) => {
+                            // 重复加载
+                            console.log(res);
+                            this.NEWS_LIST = res.res;
+                        }
+                    });
+                },
+                JumpGo(arr) {
+                    switch (arr.typeid) {
+                        case 'k3':
+                            window.location.href = "./total_buy/index.html?name=" + arr.name
+                            break;
+                        case 'ssc':
+                            window.location.href = "./total_buy/ssc.html?name=" + arr.name
+                            break;
+                        case 'pk10':
+                            window.location.href = "./total_buy/pk10.html?name=" + arr.name
+                            break;
+                        case 'kl10':
+                            window.location.href = "./total_buy/kl10.html?name=" + arr.name
+                            break;
+                        case 'xu5':
+                            window.location.href = "./total_buy/xu5.html?name=" + arr.name
+                            break;
+
+                        default:
+                            break;
+                    }
+                },
+                login() {
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/lottery/login",
+                        data: {
+                            account: this.zhanghao,
+                            password: this.mima
+                        },
+                        success: res => {
+                            console.log(res);
+                            if (res.code == 200) {
+                                localStorage.setItem('loginobj', JSON.stringify(res))
+                                this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+                                this.loginFlag = false
+                            }else{
+                                this.cengFlag = true;
+                                this.cengtitle = res.msg
+                            }
+                            console.log(this.loginObj);
+                        }
+                    });
+                },
+                checkbalances() {
+                    this.balance = !this.balance;
+                    $.ajax({
+                        type: "post",
+                        url: HOST + "/api/user/indexMain",
+                        data: {
+                            session_id: this.loginObj.session_id
+                        },
+                        success: (res) => {
+                            console.log(res);
+                            this.checkbalance = res.res.balance;
+                        }
+                    });
+                },
+                regist() {
+                    window.location.href = "./login/regist.html"
+                },
+                out(){
+                    this.loginFlag=true;
+                    localStorage.removeItem('loginobj')
+                },
+                gerezhongxin() {
+          window.location.href = "./user/index.html"
+        }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

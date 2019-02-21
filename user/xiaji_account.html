@@ -1,0 +1,538 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>必赢彩票</title>
+  <style>
+    .bullets>.swiper-pagination-bullet {
+      background: rgba(255, 255, 255, 0.8);
+      opacity: 1;
+    }
+
+    .bullets.liwu>.swiper-pagination-bullet {
+      background: #999;
+    }
+
+    .bullets>.swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background: #d80b2a;
+    }
+
+    .loading {
+      background-image: url("../image/load.gif");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .porxy {
+      color: #d44022;
+      border-color: #d44022;
+    }
+  </style>
+
+  <style type="text/css">
+    :root .content>a>.topline,
+    :root .container>a.mid-wrapper {
+      display: none !important;
+    }
+  </style>
+  <link href="../css/app.baiying.css" rel="stylesheet">
+
+</head>
+
+<body class="">
+  <div id="app" v-cloak>
+    <div data-v-50b23bb5="" id="red" class="index">
+      <div data-v-0ac3c666="" data-v-50b23bb5="" class="backHeader">
+        <div data-v-0ac3c666="" class="top">
+          <div data-v-0ac3c666="" class="container">
+            你好，欢迎光临必赢彩票 !
+            <ul data-v-0ac3c666="" class="tabs">
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/zhuce" class="">加入代理</a></li>
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/user" class="">用户中心</a></li>
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/touzhu" class="">投注记录</a></li>
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/help" class="">帮助中心</a></li>
+              <li data-v-0ac3c666=""><a data-v-0ac3c666="" class="public_color">在线客服</a></li>
+            </ul>
+          </div>
+        </div>
+        <header data-v-0ac3c666="">
+          <div data-v-0ac3c666="" class="container"><img data-v-0ac3c666="" src="../image/d5ed1404201945c8.png">
+            <div data-v-0ac3c666="" class="unlogin_container" v-if="loginFlag==true">
+              <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="../image/user-icon_03.png">
+                <input data-v-0ac3c666="" type="text" placeholder="用户名" v-model="zhanghao"></div>
+              <div data-v-0ac3c666=""><img data-v-0ac3c666="" src="../image/luck.png">
+                <input data-v-0ac3c666="" type="password" placeholder="密码" v-model="mima"></div>
+              <button data-v-0ac3c666="" class="public_back" @click="login()">登录</button> <button data-v-0ac3c666=""
+                class="regist" @click="regist()">注册</button>
+            </div>
+            <ul data-v-0ac3c666="" class="login_container" v-else>
+              <li data-v-0ac3c666="" class="username"><img data-v-0ac3c666="" :src="loginObj.url" @click="gerezhongxin()">
+                您好，<a data-v-0ac3c666="" class="public_color">{{loginObj.account}}</a>
+              </li>
+              <li data-v-0ac3c666="" class="show_yue">
+                可用余额:
+                <span data-v-0ac3c666="" class="public_color" v-if="balance">(已隐藏)</span>
+                <span data-v-0ac3c666="" class="public_color" v-else>{{checkbalance}}元</span>
+                <img data-v-0ac3c666="" src="../image/hidden.png" @click="balance = !balance"></li>
+              <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/recharge" class="">充值</a></li>
+              <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" href="#/tixian" class="">提现</a></li>
+              <li data-v-0ac3c666="" class="btns"><a data-v-0ac3c666="" @click="out()">退出</a></li>
+            </ul>
+          </div>
+        </header>
+        <div data-v-0ac3c666="" class="menu public_back">
+          <div data-v-0ac3c666="" class="container">
+            <div data-v-0ac3c666="" class="menuLeft" @mouseenter="ALLFLAG = true" @mouseleave="ALLFLAG = false"><img
+                data-v-0ac3c666="" src="../image/classify.png">
+              全部彩种分类
+              <ul data-v-0ac3c666="" class="all_lottery public_color" v-if="ALLFLAG">
+                <li data-v-0ac3c666="" v-for="(allitem, index) in ALL_LIST" :key="index" v-if="index>=1">
+                  <p data-v-0ac3c666="">{{allitem.cp_name}}</p>
+                  <div data-v-0ac3c666="" v-for="(listitem, index) in allitem.list" :key="index">
+                    <span data-v-0ac3c666="" @click="JumpGo(listitem)">{{listitem.title}}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <ul data-v-0ac3c666="" class="menuRight">
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../index.html">首页</a></li>
+              <li data-v-0ac3c666="" class="red"> <a data-v-0ac3c666="" href="../hall.html">购彩大厅</a></li>
+              <li data-v-0ac3c666="" class="">
+                <div data-v-0ac3c666="" class="hot"><img data-v-0ac3c666="" src="../image/hot2.png">
+                  <img data-v-0ac3c666="" src="../image/hot2.gif"></div>
+                <a data-v-0ac3c666="" href="../buy.html">直播间</a>
+              </li>
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../yhHuodong.html">优惠活动</a></li>
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../zoushi.html">走势图</a></li>
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../jihua.html">精准计划</a></li>
+              <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="../notice.html">网站公告</a></li>
+              <li data-v-0ac3c666="" class=""><img data-v-0ac3c666="" src="../image/phone-icon.png" style="width: 15px;">
+                <a data-v-0ac3c666="" href="../phone_buy.html">手机购彩</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 内容替换区 -->
+
+      <div data-v-15fd7600="" class="user_center container">
+        <div data-v-a7b1236e="" data-v-15fd7600="" class="userLeft">
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/zhanghao2.png">
+              账号管理
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e=""><a href="./index.html">个人信息</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./safe.html">安全中心</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./cards.html">银行卡管理</a></li>
+            </ul>
+          </div>
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/touzhu2.png">
+              投注管理
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e="" ><a href="./touzhu.html">投注记录</a></li>
+            </ul>
+          </div>
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/zijin2.png">
+              资金管理
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e="" class=""><a href="./record.html">交易记录</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./getmoney.html">今日盈亏</a></li>
+            </ul>
+          </div>
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/daili2.png">
+              代理中心
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e="" class=""><a href="./agency_explain.html">代理说明</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./agency_table.html">代理报表</a></li>
+              <li data-v-a7b1236e=""><a href="./xiaji_table.html">下级报表</a></li>
+              <li data-v-a7b1236e="" class="public_color"><a href="./xiaji_account.html">下级开户</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./xiaji_vip.html">会员管理</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./xiaji_touzhu.html">投注明细</a></li>
+              <li data-v-a7b1236e="" class=""><a href="./xiaji_deal.html">交易明细</a></li>
+            </ul>
+          </div>
+          <div data-v-a7b1236e="">
+            <p data-v-a7b1236e=""><img data-v-a7b1236e="" src="../image/xiaoxi2.png">
+              消息管理
+            </p>
+            <ul data-v-a7b1236e="" class="leftUrl">
+              <li data-v-a7b1236e="" class=""><a href="./user_email.html">站内信</a></li>
+            </ul>
+          </div>
+        </div>
+        <div data-v-900372fe="" class="right">
+          <div data-v-900372fe="" class="title"><span data-v-900372fe="" :class="{'public_color':xj_flag}" @click="xj_flag = true">下级开户</span><span
+              data-v-900372fe="" class="" @click="xj_flag=false" :class="{'public_color':xj_flag==false}">邀请码管理</span></div>
+          <ul data-v-900372fe="" class="condition_sel">
+            <li data-v-900372fe="" class="radio_public">
+              开户类型 :
+              <input data-v-900372fe="" type="radio" name="kaihu_type" id="daili" value="1" style="display: none;">
+              <label data-v-900372fe="" for="daili" :class="{'porxy':xj_id==0}" @click="change_list_id('1','1','10')">代理</label>
+              <input data-v-900372fe="" type="radio" name="kaihu_type" id="wanjia" value="2" style="display: none;">
+              <label data-v-900372fe="" for="wanjia" :class="{'porxy':xj_id==1}" @click="change_list_id('0','1','10')">玩家</label></li>
+          </ul>
+          <div v-if="xj_flag == true">
+            <p data-v-900372fe="" class="text">
+              请先为下级设置返点。<a data-v-900372fe="" href="./peilvbiao.html" class="change_color" target="_blank">点击查看返点赔率表</a></p>
+            <div data-v-900372fe="" class="list">
+              <p data-v-900372fe="">返点设置 :</p> <input data-v-900372fe="" type="text" v-model="xj_point">
+              （自身返点{{loginObj.point}}.0，可为下级设置返点范围0.0-{{loginObj.point}}.0）<br data-v-900372fe=""> <span
+                data-v-900372fe="" class="public_color" style="display: none;">请设置正确的返点范围</span><br data-v-900372fe="">
+              <button data-v-900372fe="" class="public_btn" @click="creatyqm()">生成邀请码</button>
+            </div>
+            <div data-v-900372fe="" class="content"><span data-v-900372fe="" class="public_color">※ 温馨提示： </span><br
+                data-v-900372fe="">
+              1、不同的返点赔率不同，返点越高赔率越高。<br data-v-900372fe="">
+              2、代理可获得的佣金等于代理自身返点与下级返点的差值，如代理自身返点6，下级返点4，代理可获得下级投注金额的2%，即下级下注100元，代理可获得2元。<br data-v-900372fe="">
+              3、下级返点值设得越低，下级的赔率就越低，建议给下级设置的返点不要过低。
+            </div>
+          </div>
+          <table data-v-900372fe="" class="table_public" v-if="xj_flag == false">
+            <tr data-v-900372fe="">
+              <th data-v-900372fe="">邀请码</th>
+              <th data-v-900372fe="">注册链接</th>
+              <th data-v-900372fe="">备注</th>
+              <th data-v-900372fe="">生成时间</th>
+              <th data-v-900372fe="">返点</th>
+              <th data-v-900372fe="">状态</th>
+              <th data-v-900372fe="">操作</th>
+            </tr>
+            <tr data-v-900372fe="" v-for="(item, index) in xj_list" :key="index">
+              <td data-v-900372fe=""><input data-v-900372fe="" type="text" id="4418" :value="item.invite_code"> <button
+                  data-v-900372fe="">复制</button></td>
+              <td data-v-900372fe=""><input data-v-900372fe="" type="text" id="item.invite_link">
+                <button data-v-900372fe="">复制</button></td>
+              <td data-v-900372fe="" class="remark">
+                <!----> <span data-v-900372fe="" class="text-overflow">{{item.remark}}</span></td>
+              <td data-v-900372fe="">{{item.add_time}}</td>
+              <td data-v-900372fe="">{{item.point_num}}</td>
+              <td data-v-900372fe="">注册({{item.register_num}})</td>
+              <td data-v-900372fe=""><span data-v-900372fe="" class="change_color">生成二维码</span>
+                <span data-v-900372fe="" class="change_color">删除</span>
+                <div data-v-900372fe="" class="erweima"><img data-v-900372fe="" src="../image/ewm_close.svg"
+                    class="close"> <img data-v-900372fe="" src="http://biyingweb.baiyingcdn.com/Home/GetImageQr?data=http%3A//by0018.com/%23/zhuce%3Fcode%3D488538099"
+                    class="img">
+                  <p data-v-900372fe="">注册链接二维码</p>
+                </div>
+              </td>
+            </tr>
+
+          </table>
+
+          <!---->
+          <!---->
+          <!---->
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 内容替换区结束 -->
+    <div data-v-94a66012="" data-v-50b23bb5="" class="backFooter">
+      <div data-v-94a66012="" class="container">
+        <ul data-v-94a66012="" class="tabs">
+          <li data-v-94a66012="">
+            技术支持<span data-v-94a66012="">Technica support</span></li>
+          <li data-v-94a66012="">
+            服务体验<span data-v-94a66012="">Service experience</span></li>
+          <li data-v-94a66012="">
+            充值方式<span data-v-94a66012="">Recharge method</span></li>
+        </ul>
+        <ul data-v-94a66012="" class="content">
+          <li data-v-94a66012="" class="baiying"><img data-v-94a66012="" src="../image/computer.png">
+            <div data-v-94a66012="">
+              百盈彩票<br data-v-94a66012="">
+              专业的彩票系统平台
+            </div>
+          </li>
+          <li data-v-94a66012="">
+            <div data-v-94a66012="" class="time">
+              昨日充值到账平均时间
+              <div data-v-94a66012="" class="outer">
+                <div data-v-94a66012="" class="inner"></div>
+              </div> <span data-v-94a66012="">
+                <i data-v-94a66012="">分</i></span></div>
+            <div data-v-94a66012="" class="time">
+              昨日提现到账平均时间
+              <div data-v-94a66012="" class="outer">
+                <div data-v-94a66012="" class="inner inner2"></div>
+              </div> <span data-v-94a66012="">
+                <i data-v-94a66012="">分</i></span></div>
+          </li>
+          <li data-v-94a66012="" class="imgs"><img data-v-94a66012="" src="../image/weinxin.png">
+            <img data-v-94a66012="" src="../image/zhifubao.png">
+            <img data-v-94a66012="" src="../image/yinlian.png"></li>
+        </ul>
+        <div data-v-94a66012="" class="about_us">
+          <ul data-v-94a66012="" class="about_list">
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">关于我们</a></li>
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">联系我们</a></li>
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">商务合作</a></li>
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">法律声明</a></li>
+            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">隐私声明</a></li>
+          </ul>
+          郑重提示 : 彩票有风险，投注需谨慎。不向未满十八岁的青少年出售彩票 !
+        </div>
+      </div>
+    </div>
+    <div v-if="cengFlag == true">
+      <div>
+        <div class="alert_box" id="red">
+          <div class="alert_head public_back">温馨提示
+            <img src="../image/white_close.png">
+          </div>
+          <p class="alert_text">
+            <img src="../image/icon-alert.png">
+            {{cengtitle}}
+          </p>
+          <div class="alert_bottom">
+            <button class="public_btn" @click="cengFlag = false">确定</button>
+          </div>
+        </div>
+        <div class="bg"></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <script src="../js/svga.min.js"></script>
+  <script src="../js/jquery-1.11.3.min.js"></script>
+  <script src="../js/vue.js"></script>
+  <script src="../js/index.js"></script>
+  <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        title: '全部彩种',
+        // 表格列表
+        HOT_LIST: [],
+        // 下拉列表
+        XIALAFLAG: false,
+        XIALA_LIST: [],
+        XIALAINDEX: 0,
+        XIALATITLE: '全部彩种',
+        // 今日盈亏
+        MONEY_LIST: {},
+
+        LISTINDEX: 0,
+        // 列表展开页面
+        ALLFLAG: false,
+        ALL_LIST: [],
+        ALLINDEX: 0,
+        ALLTITLE: '全部彩种',
+        // 登陆相关参数
+        loginObj: {},
+        loginFlag: true,
+        mima: '',
+        zhanghao: '',
+        balance: true,
+        // 弹出层参数
+        cengtitle: '',
+        cengFlag: false,
+                // 最新余额
+                checkbalance:'',
+        // 个人中心的参数
+        qiehuan: 0,
+        // 下级开户参数
+        xj_flag: true,
+        xj_id: '0',
+        xj_list: [],
+        xj_photo: false,
+        xj_img_url: '',
+        xj_point: ''
+
+      },
+      mounted() {
+        if (localStorage.getItem('loginobj') != null) {
+          if (JSON.parse(localStorage.getItem('loginobj')).code == 200) {
+            this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+            this.loginFlag = false
+          }
+        } else {
+          window.location.href = "../index.html"
+        }
+        this.init()
+      },
+
+      methods: {
+        init() {
+          $.ajax({
+            type: "post",
+            url: HOST + "/api/invite/manage",
+            data: {
+              session_id: this.loginObj.session_id,
+              page: 1,
+              index: 10,
+              proxy: this.xj_point
+            },
+            success: (res) => {
+              console.log(res);
+              this.xj_list = res.data;
+            }
+          });
+
+        },
+
+        xiangqing(guid) {
+          window.location.href = "./zdxiangqing.html?guid=" + guid
+        },
+        tiaozhuan(name, typeid) {
+          switch (typeid) {
+            case 'k3':
+              window.location.href = "../total_buy/index.html?name=" + name
+
+              break;
+            case 'ssc':
+              window.location.href = "../total_buy/ssc.html?name=" + name
+
+              break;
+            case 'pk10':
+              window.location.href = "../total_buy/pk10.html?name=" + name
+
+              break;
+            case 'kl10':
+              window.location.href = "../total_buy/kl10.html?name=" + name
+
+              break;
+            case 'xu5':
+              window.location.href = "../total_buy/xu5.html?name=" + name
+
+              break;
+
+            default:
+              break;
+          }
+
+        },
+        JumpGo(arr) {
+          if (this.loginObj.code == undefined) {
+            this.cengFlag = true;
+            this.cengtitle = '请先登陆'
+            return
+          }
+          switch (arr.typeid) {
+            case 'k3':
+              window.location.href = "../total_buy/index.html?name=" + arr.name
+              break;
+            case 'ssc':
+              window.location.href = "../total_buy/ssc.html?name=" + arr.name
+              break;
+            case 'pk10':
+              window.location.href = "../total_buy/pk10.html?name=" + arr.name
+              break;
+            case 'kl10':
+              window.location.href = "../total_buy/kl10.html?name=" + arr.name
+              break;
+            case 'xu5':
+              window.location.href = "../total_buy/xu5.html?name=" + arr.name
+              break;
+
+            default:
+              break;
+          }
+        },
+        login() {
+          $.ajax({
+            type: "post",
+            url: HOST + "/api/lottery/login",
+            data: {
+              account: this.zhanghao,
+              password: this.mima
+            },
+            success: res => {
+              console.log(res);
+              if (res.code == 200) {
+                localStorage.setItem('loginobj', JSON.stringify(res))
+                this.loginObj = JSON.parse(localStorage.getItem('loginobj'))
+                this.loginFlag = false
+              }
+              console.log(this.loginObj);
+            }
+          });
+        },
+        regist() {
+          window.location.href = "../login/regist.html"
+        },
+        out() {
+          this.loginFlag = true;
+          localStorage.removeItem('loginobj')
+        },gerezhongxin() {
+          window.location.href = "./index.html"
+        },
+        change_list(index) {
+          this.activeindex = index;
+          $.ajax({
+            type: "post",
+            url: HOST + "/api/level/list",
+            data: {
+              session_id: this.loginObj.session_id,
+              date_str: this.day,
+              page: index + 1
+            },
+            success: (res) => {
+              console.log(res);
+              this.HOT_LIST = res.data;
+              this.czMaxPage = res.max_page
+            }
+          });
+        },
+        creatyqm() {
+          if (this.loginObj.point < this.xj_point) {
+            this.cengFlag = true;
+            this.cengtitle = '输入有误，请重新输入'
+          } else {
+            $.ajax({
+              type: "post",
+              url: HOST + "/api/lower/open",
+              data: {
+                session_id: this.loginObj.session_id,
+                point: this.xj_point,
+                proxy: this.point,
+              },
+              success: (res) => {
+                console.log(res);
+                if (res.code == 200) {
+                  this.cengFlag = true;
+                  this.cengtitle = '生成成功'
+                }
+              }
+            });
+          }
+        },
+        change_list_id(id, page, index) {
+          this.xj_id = id;
+
+          $.ajax({
+            type: "post",
+            url: HOST + "/api/invite/manage",
+            data: {
+              session_id: this.loginObj.session_id,
+              page: page,
+              index: index,
+              proxy: this.xj_id
+            },
+            success: (res) => {
+              console.log(res);
+              this.xj_list = res.data;
+            }
+          });
+        }
+
+      }
+    })
+  </script>
+
+</body>
+
+</html>

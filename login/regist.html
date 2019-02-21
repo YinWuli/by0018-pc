@@ -1,0 +1,256 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>必赢彩票</title>
+    <style>
+        .bullets>.swiper-pagination-bullet {
+            background: rgba(255, 255, 255, 0.8);
+            opacity: 1;
+        }
+
+        .bullets.liwu>.swiper-pagination-bullet {
+            background: #999;
+        }
+
+        .bullets>.swiper-pagination-bullet.swiper-pagination-bullet-active {
+            background: #d80b2a;
+        }
+
+        .loading {
+            background-image: url("../image/load.gif");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+    </style>
+
+    <style type="text/css">
+        :root .content>a>.topline,
+        :root .container>a.mid-wrapper {
+            display: none !important;
+        }
+    </style>
+    <link href="../css/app.baiying.css" rel="stylesheet">
+
+</head>
+
+<body class="">
+    <div id="app" v-cloak >
+        <div data-v-50b23bb5="" id="red">
+            <div data-v-0ac3c666="" data-v-50b23bb5="" class="backHeader">
+                <div data-v-0ac3c666="" class="top">
+                    <div data-v-0ac3c666="" class="container">
+                        你好，欢迎光临必赢彩票 !
+                        <ul data-v-0ac3c666="" class="tabs">
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/zhuce" class="">加入代理</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/user" class="">用户中心</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/touzhu" class="">投注记录</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" href="#/help" class="">帮助中心</a></li>
+                            <li data-v-0ac3c666=""><a data-v-0ac3c666="" class="public_color">在线客服</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <header data-v-0ac3c666="">
+                    <div data-v-0ac3c666="" class="container"><img data-v-0ac3c666="" src="../image/d5ed1404201945c8.png">
+
+                    </div>
+                </header>
+                <div data-v-0ac3c666="" class="menu public_back">
+                    <div data-v-0ac3c666="" class="container">
+                        <div data-v-0ac3c666="" class="menuLeft"><img data-v-0ac3c666="" src="../image/classify.png">
+                            全部彩种分类
+                        </div>
+                        <ul data-v-0ac3c666="" class="menuRight">
+                            <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="./index.html">首页</a></li>
+                            <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="./hall.html">购彩大厅</a></li>
+                            <li data-v-0ac3c666="" class="">
+                                <div data-v-0ac3c666="" class="hot"><img data-v-0ac3c666="" src="../image/hot2.png">
+                                    <img data-v-0ac3c666="" src="../image/hot2.gif"></div>
+                                <a data-v-0ac3c666="" href="./buy.html">直播间</a>
+                            </li>
+                            <li data-v-0ac3c666="" class="red"> <a data-v-0ac3c666="" href="./yhHuodong.html">优惠活动</a></li>
+                            <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="./zoushi.html">走势图</a></li>
+                            <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="./jihua.html">精准计划</a></li>
+                            <li data-v-0ac3c666="" class=""> <a data-v-0ac3c666="" href="./notice.html">网站公告</a></li>
+                            <li data-v-0ac3c666="" class=""><img data-v-0ac3c666="" src="../image/phone-icon.png" style="width: 15px;">
+                                <a data-v-0ac3c666="" href="./phone_buy.html">手机购彩</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容替换区 -->
+            <div data-v-f4f64080="" class="container"><img data-v-f4f64080="" src="../image/register.png" class="img">
+                <p data-v-f4f64080="" class="tit">会员注册</p>
+                <ul data-v-f4f64080="" class="form">
+                    <li data-v-f4f64080=""><span data-v-f4f64080="">邀请码:</span>
+                        <input v-model="yaoqingma" data-v-f4f64080="" type="text" placeholder="请输入数字邀请码"> <span
+                            data-v-f4f64080="" class="public_color" v-if="yaoqingma == ''"><img data-v-f4f64080="" src="../image/error.png">邀请码不得为空
+                        </span>
+                    </li>
+                    <li data-v-f4f64080=""><span data-v-f4f64080="">账号:</span>
+                        <input v-model="zhanghao" data-v-f4f64080="" type="text" placeholder="请输入账号"> <span
+                            data-v-f4f64080="" class="public_color" v-if="zhanghao==''"><img data-v-f4f64080="" src="../image/error.png">账号不得为空
+                        </span>
+                    </li>
+                    <li data-v-f4f64080=""><span data-v-f4f64080="">设置密码:</span>
+                        <input v-model="mima" data-v-f4f64080="" :type="[mimaflag==true?'text':'password']" placeholder="请输入密码">
+                        <img data-v-f4f64080="" src="../image/mingwen.png" class="eye eye2" @click="mimaflag = !mimaflag">
+                        <span data-v-f4f64080="" class="public_color" v-if="mima==''"><img data-v-f4f64080="" src="../image/error.png">密码不得为空
+                        </span>
+                    </li>
+                    <li data-v-f4f64080=""><span data-v-f4f64080="">确认密码:</span>
+                        <input v-model="mima2" data-v-f4f64080="" :type="[mima2flag==true?'text':'password']"
+                            placeholder="请再次输入相同密码"> <img data-v-f4f64080="" src="../image/mingwen.png" class="eye eye2"
+                            @click="mima2flag = !mima2flag">
+                        <span data-v-f4f64080="" class="public_color" v-if="mima2 == ''"><img data-v-f4f64080="" src="../image/error.png">确认密码不得为空
+                        </span>
+                    </li>
+                    <li data-v-f4f64080=""><button data-v-f4f64080="" class="public_btn" @click="regist()">立即注册</button></li>
+                </ul>
+            </div>
+
+            <!-- 内容替换区结束 -->
+            <div data-v-94a66012="" data-v-50b23bb5="" class="backFooter">
+                <div data-v-94a66012="" class="container">
+                    <ul data-v-94a66012="" class="tabs">
+                        <li data-v-94a66012="">
+                            技术支持<span data-v-94a66012="">Technica support</span></li>
+                        <li data-v-94a66012="">
+                            服务体验<span data-v-94a66012="">Service experience</span></li>
+                        <li data-v-94a66012="">
+                            充值方式<span data-v-94a66012="">Recharge method</span></li>
+                    </ul>
+                    <ul data-v-94a66012="" class="content">
+                        <li data-v-94a66012="" class="baiying"><img data-v-94a66012="" src="../image/computer.png">
+                            <div data-v-94a66012="">
+                                百盈彩票<br data-v-94a66012="">
+                                专业的彩票系统平台
+                            </div>
+                        </li>
+                        <li data-v-94a66012="">
+                            <div data-v-94a66012="" class="time">
+                                昨日充值到账平均时间
+                                <div data-v-94a66012="" class="outer">
+                                    <div data-v-94a66012="" class="inner"></div>
+                                </div> <span data-v-94a66012="">
+                                    <i data-v-94a66012="">分</i></span></div>
+                            <div data-v-94a66012="" class="time">
+                                昨日提现到账平均时间
+                                <div data-v-94a66012="" class="outer">
+                                    <div data-v-94a66012="" class="inner inner2"></div>
+                                </div> <span data-v-94a66012="">
+                                    <i data-v-94a66012="">分</i></span></div>
+                        </li>
+                        <li data-v-94a66012="" class="imgs"><img data-v-94a66012="" src="../image/weinxin.png">
+                            <img data-v-94a66012="" src="../image/zhifubao.png">
+                            <img data-v-94a66012="" src="../image/yinlian.png"></li>
+                    </ul>
+                    <div data-v-94a66012="" class="about_us">
+                        <ul data-v-94a66012="" class="about_list">
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">关于我们</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">联系我们</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">商务合作</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">法律声明</a></li>
+                            <li data-v-94a66012=""><a data-v-94a66012="" href="javascript:void(0)">隐私声明</a></li>
+                        </ul>
+                        郑重提示 : 彩票有风险，投注需谨慎。不向未满十八岁的青少年出售彩票 !
+                    </div>
+                </div>
+            </div>
+            <div v-if="cengFlag == true">
+                <div>
+                    <div class="alert_box" id="red">
+                        <div class="alert_head public_back">提示<img src="../image/white_close.png"></div>
+                        <p class="alert_text"><img src="../image/icon-alert.png">{{cengtitle}}</p>
+                        <div class="alert_bottom"><button class="public_btn" @click="cengShow()">确定</button></div>
+                    </div>
+                    <div class="bg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/svga.min.js"></script>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/vue.js"></script>
+    <script src="../js/index.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                title: '注册页面',
+                yaoqingma: '',
+                zhanghao: '',
+                mima: '',
+                mima2: '',
+                mimaflag: true,
+                mima2flag: true,
+                // 弹出层参数
+                cengtitle: '',
+                cengFlag: false,
+                // 最新余额
+                checkbalance:'',
+            },
+            mounted() {
+
+            },
+            methods: {
+
+                regist() {
+                    debugger
+                    if (this.yaoqingma.length < 4) {
+                        this.cengFlag = true;
+                        this.cengtitle = "请输入不低于4位的数字邀请码"
+                        return
+                    } else if (this.zhanghao.length < 5) {
+                        this.cengFlag = true;
+                        this.cengtitle = "请输入5~15位的数字或字母组合帐号"
+                        return
+                    } else if (this.mima.length < 5) {
+                        this.cengFlag = true;
+                        this.cengtitle = "请输入6~16位密码"
+                        return
+                    } else if (this.mima != this.mima2) {
+                        this.cengFlag = true;
+                        this.cengtitle = "输入的确认密码和密码不一致"
+                        return
+                    } else {
+                        $.ajax({
+                            type: "post",
+                            url: HOST + "/api/lottery/register",
+                            data: {
+                                invite_code: this.yaoqingma,
+                                account: this.zhanghao,
+                                password: this.mima
+                            },
+                            success: (res) => {
+                                console.log(res);
+                                if (res.code == 200) {
+                                    this.cengFlag = true;
+                                    this.cengtitle = "注册成功"
+                                }
+                            }
+                        });
+                    }
+                },
+                cengShow() {
+                    if (this.cengtitle == '注册成功') {
+                        window.location.href = "../index.html"
+                    } else {
+                        this.cengFlag = false
+                    }
+
+                }
+            }
+        })
+    </script>
+
+
+</body>
+
+</html>
